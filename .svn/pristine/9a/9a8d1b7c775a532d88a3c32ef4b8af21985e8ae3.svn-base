@@ -1,0 +1,15 @@
+@charset "utf-8";
+/*
+a  #f18d22
+font #333
+背景色 #1a6389
+灰色border #d8d8d8
+浅蓝色 #38f
+*/
+body{ background:#1a6389;}
+a:hover{color:#f18d22;}
+.login_top a{ color: #fff;}
+.login_top a:hover{ color: #f18d22;}
+
+.srh_btn{ border: 1px solid #38f; background-color:#38f;}
+.srh_submit{ background-color: #38f;}
