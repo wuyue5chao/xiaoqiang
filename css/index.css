@@ -49,12 +49,14 @@ body{height: 100%; min-width: 1000px;font:14px/1.5 Arial,sans-serif,'宋体';col
 
 .side{ margin-right: 10px;}
 .list_wrap{position: relative; width: 210px; background: #f2f4f6;}
-.lists .item{position: relative; padding: 10px; border-bottom: 1px solid #e8e8e8;}
+.lists .item{position: relative; padding: 10px;border-left: 1px solid #f2f4f6; border-bottom: 1px solid #e8e8e8;z-index: 11;}
 .lists .item h3{ font-size: 16px;}
 .lists .item .arrow{position: absolute; right: 10px; top: 10px;}
 .lists .item .more{display: inline-block; width: 12px; font-weight: bold; color: #666;}
+.lists .item_on{ border-bottom-color:#1a6389;border-left-color:#1a6389;}
+.lists .borderout{display: block; position: absolute; top: 0; right: -1px;width: 2px;height: 44px; background: #f2f4f6;}
 .lists .second_list{ margin: 10px 0 0 15px; line-height: 24px; color: #666;}
-.down_layer{ position: absolute;top:0; left: 210px; padding: 15px 10px 5px; background: #f2f4f6; width: 960px; z-index: 10;}
+.down_layer{ position: absolute;top:0; left: 210px; padding: 15px 10px 5px; background: #f2f4f6; width: 960px; z-index: 10; border: 1px solid #1a6389; border-top: 0;}
 .down_layer a{ display:block; float: left; margin-bottom: 10px; width: 240px; height: 24px; line-height: 24px; overflow: hidden;}
 .down_layer .txt{ display: inline-block; max-width: 160px; height: 24px; line-height: 24px; overflow: hidden; float: left;}
 .down_layer .num{ display: inline-block; float: left;}
