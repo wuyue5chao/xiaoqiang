@@ -18,6 +18,8 @@ body{height: 100%; min-width: 1000px;font:14px/1.5 Arial,sans-serif,'宋体';col
 .fr{float: right;}
 .fontblue{color: #447e9f;}
 .fontyellow{ color: #f18d22;}
+.fontgray{ color: #999;}
+.center{ text-align: center;}
 
 .w1190{ width: 1190px;margin: 0 auto;}
 .wrapper{ min-height: 100%;}
@@ -41,7 +43,7 @@ body{height: 100%; min-width: 1000px;font:14px/1.5 Arial,sans-serif,'宋体';col
 .srh-btn{ display: block; width:103px; height: 38px; border: 1px solid #38f; background-color:#38f;}
 .srh-submit{ cursor: pointer; width: 103px; height: 38px; padding: 0;border: 0; background: none; background-color: #38f; font-size: 16px; color: #fff; border-spacing: 0; font-weight: normal;}
 /*搜索列表*/
-.head-srh{height: 54px; line-height: 54px; color: #fff;}
+.head-srh{height: 54px; line-height: 54px; color: #fff; font-size: 12px;}
 .head-srh .top-logo{width: 210px;}
 .head-srh .srh-form{margin-top: 7px; color: #333; width: 600px; font-size: 14px;}
 .head-srh .srh-form .srh-ipt{ font-size: 14px;}
@@ -72,9 +74,13 @@ body{height: 100%; min-width: 1000px;font:14px/1.5 Arial,sans-serif,'宋体';col
 .keyword:hover{ background:#f18d22; color: #fff; }
 .keyword .close{ margin-left:8px; font-size: 12px;}
 .info-wrap{ margin-bottom: 20px;}
-.item-info{position: relative; padding:15px 10px; border-top: 1px solid #e8e8e8;}
+.item-info{position: relative; padding:20px 10px; border-top: 1px solid #e8e8e8;}
 .item-info.hover{ background: #f8f8f8}
-.item-info h3{ font-size: 18px; margin-bottom: 10px; font-weight: bold;}
+.item-info h3{ font-size: 20px; margin-bottom: 10px;}
 .item-info .text{ font-size: 12px; color: #666; line-height: 24px; text-indent: 2em;}
 .item-info .tags-wrap{position: absolute; top: 0; right: 0;}
 .item-info .tags{ display: block; float: left;margin-left: 10px; width: 40px; height: 46px; background: url(../images/flag.png) no-repeat 0 0; color: #fff; text-align: center; line-height: 38px;}
+
+.loading{ padding: 10px 0; background: #f8f8f8;}
+.gotop{position: fixed; bottom:100px; right: 10px;width: 48px; height: 55px; }
+.gotop .gotop-icon{display: block; width: 48px; height: 55px;  background: url(../images/gotop.png) no-repeat 0 0;}
