@@ -124,7 +124,12 @@ $(function(){
 			self.subSearch();
 		});
 
-		this.searchConObj.keyup(function(){
+		this.searchConObj.keyup(function(e){
+			e = e ? e : window.event;
+			if(e.keyCode == 13){
+				self.subSearch();
+				return false;
+			}
 			self.getSearchLink();
 		});
 

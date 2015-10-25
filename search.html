@@ -4,8 +4,13 @@
 <meta charset="utf-8" />
 <meta http-equiv="" content="" />
 <title>搜索结果</title>
-<link rel="stylesheet" href="css/index.css" />
-<link rel="stylesheet" href="css/skin.css" />
+<link rel="stylesheet" href="/xiaoqiang/css/index.css" />
+<link rel="stylesheet" href="/xiaoqiang/css/skin.css" />
+<script src="/xiaoqiang/js/jquery/jquery.js" type="text/javascript"></script>
+<script src="/xiaoqiang/js/public/index.js" type="text/javascript"></script>
+<script src="/xiaoqiang/js/public/clickshowdiv.js" type="text/javascript"></script>
+<script src="/xiaoqiang/js/search.js" type="text/javascript"></script>
+<script src="/xiaoqiang/js/searchlist.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -15,18 +20,23 @@
 			<div class="top-logo fl"><img src="images/logo.png" width="40"> 法律数据</div>
 			<div class="srh-form clearfix fl">
 				<div class="fl drop-wrap">
-					<p class="drop-cru">
-						<span>找案例</span><em class="drop-arrow"></em>
+					<p class="drop-cru" id="searchTypeObj">
+						<span>本院认为</span><em class="drop-arrow"></em>
 					</p>
-					<ul class="drop-option" style="display:none;">
-					<li>找律师</li>
-					<li>找案例</li>
-				</ul>
+					<ul class="drop-option" id="searchChildObj" style="display:none;">
+						<li data-v="1" class="sObj">本院认为</li>
+						<li data-v="2">全部内容</li>
+						<li data-v="3">裁判结果</li>
+						<li data-v="4">原告诉称</li>
+						<li data-v="5">被告辩称</li>
+					</ul>
 				</div>
-				<input type="text" class="srh-ipt fl" placeholder="请输入要搜索的内容" />
+				<input type="text" class="srh-ipt fl" placeholder="请输入要搜索的内容" autocomplete="off" id="searchConObj"/>
 				<a class="fl srh-btn">
-					<input type="submit" class="srh-submit" value="搜 索" />
+					<input type="submit" class="srh-submit" value="搜 索" id="searchObj"/>
 				</a>
+				<ul style="display:none;" id="searchTipsObj">
+				</ul>
 			</div>		
 			<div class="fr"><a href="#">登录</a><var>|</var><a href="#">注册</a></div>
 		</div>
@@ -177,7 +187,7 @@
 		</div>
 		<div class="main fl">
 			<div class="result clearfix">
-				<p class="keywords fl">共找到<span class="fontyellow">1086195</span>个结果，关键词：<a href="#" class="keyword">婚姻<em class="close">X</em></a><a href="#" class="keyword">机动车交通事故<em class="close">X</em></a><a href="#" class="keyword">婚姻<em class="close">X</em></a><a href="#" class="keyword">婚姻<em class="close">X</em></a><a href="#" class="keyword">机动车交通事故<em class="close">X</em></a><a href="#" class="keyword">婚姻<em class="close">X</em></a><a href="#" class="keyword">婚姻<em class="close">X</em></a><a href="#" class="keyword">机动车交通事故<em class="close">X</em></a><a href="#" class="keyword">婚姻<em class="close">X</em></a><a href="#" class="keyword">婚姻<em class="close">X</em></a><a href="#" class="keyword">机动车交通事故<em class="close">X</em></a><a href="#" class="keyword">婚姻<em class="close">X</em></a></p>
+				<p class="keywords fl">共找到<span class="fontyellow" id="searchNumObj">1086195</span>个结果，关键词：<span id="conditionObj"></span></p>
 				<p class="save fr"><a href="#"><em class="save-icon"></em> 收藏</a></p>
 			</div>
 			<div class="info-wrap">
