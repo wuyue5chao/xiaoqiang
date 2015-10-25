@@ -82,8 +82,8 @@ $(function(){
 			type : "post",
 			dataType : "json",
 			success : function(data){
-				if(data.code!=0)return false;
-				if(data.searchTime != data.searchTime)return false;
+				if(data.code!==0)return false;
+				if(data.searchTime != self.getLinkPrevTime)return false;
 				self.createSearchListDom(data.info);
 			}
 		});
