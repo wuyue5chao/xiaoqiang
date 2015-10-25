@@ -4,11 +4,12 @@
 <meta charset="utf-8" />
 <meta http-equiv="" content="" />
 <title>法律数据</title>
-<link rel="stylesheet" href="css/index.css" />
-<link rel="stylesheet" href="css/skin.css" />
-<script src="/1022/js/jquery/jquery.js" type="text/javascript"></script>
-<script src="/1022/js/public/clickshowdiv.js" type="text/javascript"></script>
-<script src="/1022/js/index.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/xiaoqiang/css/index.css" />
+<link rel="stylesheet" href="/xiaoqiang/css/skin.css" />
+<script src="/xiaoqiang/js/jquery/jquery.js" type="text/javascript"></script>
+<script src="/xiaoqiang/js/public/index.js" type="text/javascript"></script>
+<script src="/xiaoqiang/js/public/clickshowdiv.js" type="text/javascript"></script>
+<script src="/xiaoqiang/js/search.js" type="text/javascript"></script>
 <style type="text/css">
 body{ background:#1a6389;}	
 </style>
@@ -35,17 +36,11 @@ body{ background:#1a6389;}
 				<li data-v="5">被告辩称</li>
 			</ul>
 		</div>
-		<input type="text" class="srh-ipt fl" />
+		<input type="text" class="srh-ipt fl" autocomplete="off" id="searchConObj"/>
 		<p class="fl srh-btn">
-			<input type="submit" class="srh-submit" value="搜 索" />
+			<input type="submit" class="srh-submit" value="搜 索" id="searchObj"/>
 		</p>
-		<ul style="display:none;">
-			<li class="on">2222</li>
-			<li>2222</li>
-			<li>2222</li>
-			<li>2222</li>
-			<li>2222</li>
-			<li>2222</li>
+		<ul style="display:none;" id="searchTipsObj">
 		</ul>
 	</div>
 </div>
