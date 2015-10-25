@@ -95,7 +95,7 @@ $(function(){
 			html.push('<li data-v="'+data[i]+'">'+data[i]+'</li>');
 		}
 		if(html.length==0){
-			this.searchTipsObj.hide();
+			this.clearSearchTipsObj();
 			return false;
 		}
 		this.searchTipsObj.html(html.join(""));
