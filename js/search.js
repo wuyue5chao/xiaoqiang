@@ -52,12 +52,6 @@ $(function(){
 	}
 
 	this.getSearchLink = function(){
-		var searchVal = this.searchConObj.val();
-
-		if(searchVal === ""){
-			this.clearSearchTipsObj();
-			return false;
-		}
 		var nowTime = new Date().getTime();
 		if(nowTime-this.getLinkPrevTime < this.getLinkWatTime && this.getLinkAjaxObj){
 			clearTimeout(this.getLinkAjaxObj);
@@ -67,6 +61,13 @@ $(function(){
 		var self = this;
 
 		self.getLinkPrevTime = nowTime;
+
+		var searchVal = this.searchConObj.val();
+
+		if(searchVal === ""){
+			this.clearSearchTipsObj();
+			return false;
+		}
 
 		this.getLinkAjaxObj = setTimeout(function(){
 			self.getData();
@@ -110,7 +111,6 @@ $(function(){
 	this.clearSearchTipsObj = function(){
 		this.searchTipsObj.html("");
 		this.searchTipsObj.hide();
-		this.getLinkPrevTime = 0;
 		if(this.getLinkAjaxObj)clearTimeout(this.getLinkAjaxObj);
 	}
 
