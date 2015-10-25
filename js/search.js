@@ -110,6 +110,7 @@ $(function(){
 	this.clearSearchTipsObj = function(){
 		this.searchTipsObj.html("");
 		this.searchTipsObj.hide();
+		this.getLinkPrevTime = 0;
 		if(this.getLinkAjaxObj)clearTimeout(this.getLinkAjaxObj);
 	}
 
