@@ -1,7 +1,7 @@
 $(function(){
 	this.searchType = "";
 
-	this.getLinkWatTime = 500;
+	this.getLinkWatTime = 200;
 	this.getLinkPrevTime = 0;
 	this.getLinkAjaxObj = "";
 
