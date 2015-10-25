@@ -53,6 +53,7 @@ $(function(){
 
 	this.getSearchLink = function(){
 		var searchVal = this.searchConObj.val();
+
 		if(searchVal === ""){
 			this.clearSearchTipsObj();
 			return false;
@@ -109,6 +110,7 @@ $(function(){
 	this.clearSearchTipsObj = function(){
 		this.searchTipsObj.html("");
 		this.searchTipsObj.hide();
+		if(this.getLinkAjaxObj)clearTimeout(this.getLinkAjaxObj);
 	}
 
 	this.documentEvent = function(){
