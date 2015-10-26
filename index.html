@@ -4,8 +4,12 @@
 <meta charset="utf-8" />
 <meta http-equiv="" content="" />
 <title>法律数据</title>
-<link rel="stylesheet" href="css/index.css" />
-<link rel="stylesheet" href="css/skin.css" />
+<link rel="stylesheet" href="/xiaoqiang/css/index.css" />
+<link rel="stylesheet" href="/xiaoqiang/css/skin.css" />
+<script src="/xiaoqiang/js/jquery/jquery.js" type="text/javascript"></script>
+<script src="/xiaoqiang/js/public/index.js" type="text/javascript"></script>
+<script src="/xiaoqiang/js/public/clickshowdiv.js" type="text/javascript"></script>
+<script src="/xiaoqiang/js/search.js" type="text/javascript"></script>
 <style type="text/css">
 body{ background:#1a6389;}	
 </style>
@@ -14,25 +18,30 @@ body{ background:#1a6389;}
 <body>
 <div class="wrapper">
 	<div class="header login-top">
-		<a href="#">登录</a><var>|</var><a href="#">注册</a>
+		<a href="javascript:void(0);">登录</a><var>|</var><a href="javascript:void(0);">注册</a>
 	</div>
 	<div class="logo">
 		<img src="images/logo.png">
 	</div>
 	<div class="srh-form clearfix">
 		<div class="fl drop-wrap">
-			<p class="drop-cru">
-				<span>找案例</span><em class="drop-arrow"></em>
+			<p class="drop-cru" id="searchTypeObj">
+				<span>本院认为</span><em class="drop-arrow"></em>
 			</p>
-			<ul class="drop-option">
-			<li>找律师</li>
-			<li>找案例</li>
-		</ul>
+			<ul class="drop-option" id="searchChildObj" style="display:none;">
+				<li data-v="1" class="sObj">本院认为</li>
+				<li data-v="2">全部内容</li>
+				<li data-v="3">裁判结果</li>
+				<li data-v="4">原告诉称</li>
+				<li data-v="5">被告辩称</li>
+			</ul>
 		</div>
-		<input type="text" class="srh-ipt fl" />
-		<a class="fl srh-btn">
-			<input type="submit" class="srh-submit" value="搜 索" />
-		</a>
+		<input type="text" class="srh-ipt fl" autocomplete="off" id="searchConObj"/>
+		<p class="fl srh-btn">
+			<input type="submit" class="srh-submit" value="搜 索" id="searchObj"/>
+		</p>
+		<ul style="display:none;" id="searchTipsObj">
+		</ul>
 	</div>
 </div>
 </body>
