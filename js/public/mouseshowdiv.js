@@ -63,17 +63,17 @@ function mouseShowDiv(disDiv,thisObj){
     }
  
     if (window.addEventListener){ 
-        this.mouseObj && this.mouseObj.addEventListener("mouseover",this.showDivTime,false);
-        this.mouseObj && this.mouseObj.addEventListener("mouseout",this.hideDivTime,false);
+        this.mouseObj && this.mouseObj.addEventListener("mouseenter",this.showDivTime,false);
+        this.mouseObj && this.mouseObj.addEventListener("mouseleave",this.hideDivTime,false);
 
-        this.showDivObj && this.showDivObj.addEventListener("mouseover",this.showDivMouse,false);
-        this.showDivObj && this.showDivObj.addEventListener("mouseout",this.hideDivMouse,false);
+        this.showDivObj && this.showDivObj.addEventListener("mouseenter",this.showDivMouse,false);
+        this.showDivObj && this.showDivObj.addEventListener("mouseleave",this.hideDivMouse,false);
     }else{
-        this.mouseObj && this.mouseObj.attachEvent("onmouseover",this.showDivTime);
-        this.mouseObj && this.mouseObj.attachEvent("onmouseout",this.hideDivTime);
+        this.mouseObj && this.mouseObj.attachEvent("mouseenter",this.showDivTime);
+        this.mouseObj && this.mouseObj.attachEvent("mouseleave",this.hideDivTime);
 
-        this.showDivObj && this.showDivObj.attachEvent("onmouseover",this.showDivMouse);
-        this.showDivObj && this.showDivObj.attachEvent("onmouseout",this.hideDivMouse);
+        this.showDivObj && this.showDivObj.attachEvent("mouseenter",this.showDivMouse);
+        this.showDivObj && this.showDivObj.attachEvent("mouseleave",this.hideDivMouse);
     }
 
     var o=this;
