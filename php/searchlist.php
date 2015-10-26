@@ -26,13 +26,13 @@
 							array(
 								'title'=>"山西省",
 								'child'=>array(
-									array('cond'=>"我是一号测试",'num'=>3000),
-									array('cond'=>"我是二号测试",'num'=>3000),
-									array('cond'=>"我是三号测试",'num'=>3000),
-									array('cond'=>"我是四号测试",'num'=>3000),
-									array('cond'=>"我是五号测试",'num'=>3000),
-									array('cond'=>"我是六号测试",'num'=>3000),
-									array('cond'=>"我是懒得写了",'num'=>3000)
+									array('cond'=>"北京市人民法院",'num'=>3000),
+									array('cond'=>"北京市人民法院",'num'=>3000),
+									array('cond'=>"东直门",'num'=>3000),
+									array('cond'=>"东直门",'num'=>3000),
+									array('cond'=>"北京市人民法院",'num'=>3000),
+									array('cond'=>"东直门",'num'=>3000),
+									array('cond'=>"北京市人民法院",'num'=>3000)
 								),
 							),
 							array(
