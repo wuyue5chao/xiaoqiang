@@ -32,16 +32,19 @@ body{height: 100%; min-width: 1000px;font:14px/1.5 Arial,sans-serif,'宋体';col
 /*logo*/
 .logo{ padding-top: 100px;margin-bottom: 50px; text-align: center;}
 /*搜索*/
-.srh-form{ margin: 0 auto; width: 630px; font: 16px arial; background: #fff; }
-.drop-wrap{position: relative; width: 84px; height: 20px; padding: 9px 0px 9px 10px; border: 1px solid #d8d8d8; border-right: 0;}
+.srh-form{position: relative; margin: 0 auto; width: 630px; font: 16px arial; background: #fff;z-index: 11; }
+.drop-wrap{position: relative; width: 94px; height: 20px; padding: 9px 0px 9px 10px; border: 1px solid #d8d8d8; border-right: 0;}
 .drop-cru{position: relative; height: 20px; line-height: 20px; border-right: 1px solid #d8d8d8; cursor: pointer;}
-.drop-arrow{ display: inline-block;position: absolute; right: 10px; top: 2px; width: 15px;height: 15px; background: url(../images/dropdown.png) no-repeat 0 0; background-size: 15px 15px;}
-.drop-option{position: absolute;top: 39px; left: -1px; width: 73px; padding:0 10px; border: 1px solid #d8d8d8; border-top: 0; background: #fff;}
-.drop-option li{ height: 40px; line-height: 40px; border-bottom: 1px solid #d8d8d8; cursor: pointer;}
+.drop-arrow{ display: inline-block;position: absolute; right: 8px; top: 2px; width: 15px;height: 15px; background: url(../images/dropdown.png) no-repeat 0 0; background-size: 15px 15px;}
+.drop-option{position: absolute;top: 39px; left: -1px; width: 103px;border: 1px solid #d8d8d8; border-top: 0; background: #fff;}
+.drop-option li{ padding:0 10px;  height: 40px; line-height: 40px; border-bottom: 1px solid #d8d8d8; cursor: pointer;}
 .drop-option li:last-child{ border-bottom: 0;}
-.srh-ipt{ width: 416px; height: 20px; padding: 9px 7px;border: 1px solid #d8d8d8; border-right: 0;border-left: 0; vertical-align: top; outline: none; box-shadow: none; font-size: 16px;}
+.drop-option li.on{ background: #f8f8f8;}
+.srh-ipt{ width: 406px; height: 20px; padding: 9px 7px;border: 1px solid #d8d8d8; border-right: 0;border-left: 0; vertical-align: top; outline: none; box-shadow: none; font-size: 16px;}
 .srh-btn{ display: block; width:103px; height: 38px; border: 1px solid #38f; background-color:#38f;}
 .srh-submit{ cursor: pointer; width: 103px; height: 38px; padding: 0;border: 0; background: none; background-color: #38f; font-size: 16px; color: #fff; border-spacing: 0; font-weight: normal;}
+.srh-drop{top: 40px;left: 105px; width: 418px;}
+.srh-drop li{border-bottom: 0; height: 24px;line-height: 24px;}
 /*搜索列表*/
 .head-srh{height: 54px; line-height: 54px; color: #fff; font-size: 12px;}
 .head-srh .top-logo{width: 210px;}
