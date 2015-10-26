@@ -52,7 +52,7 @@ body{height: 100%; min-width: 1000px;font:14px/1.5 Arial,sans-serif,'宋体';col
 .head-srh .srh-form .srh-ipt{ font-size: 14px;}
 .head-srh .srh-form .srh-btn,.head-srh .srh-form .srh-submit{ width: 73px; font-size: 14px;}
 
-.side{ margin-right: 10px;}
+/*.side{ margin-right: 20px;}*/
 .list-wrap{position: relative; width: 210px; background: #f2f4f6;}
 .lists .item{position: relative; padding: 10px;border-left: 1px solid #f2f4f6; border-bottom: 1px solid #e8e8e8;z-index: 11;}
 .lists .item h3{ font-size: 16px;}
@@ -69,7 +69,7 @@ body{height: 100%; min-width: 1000px;font:14px/1.5 Arial,sans-serif,'宋体';col
 .down-layer .column .num{ display: inline-block; float: left;}
 .down-layer .column dd{display: block; width: 240px;float: left; overflow: hidden;}
 
-.main{ width: 970px;}
+.main{ width: 960px;}
 .result{ padding: 15px 0 10px;}
 .result .keywords{ width: 900px;}
 .result .save-icon{ display: inline-block;width: 12px;height: 12px; background: url(../images/concern.png) no-repeat 0 0; background-size:12px 12px; }
