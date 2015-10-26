@@ -87,3 +87,10 @@ body{height: 100%; min-width: 1000px;font:14px/1.5 Arial,sans-serif,'宋体';col
 .loading{ padding: 10px 0; background: #f8f8f8;}
 .gotop{position: fixed; bottom:100px; right: 10px;width: 48px; height: 55px; }
 .gotop .gotop-icon{display: block; width: 48px; height: 55px;  background: url(../images/gotop.png) no-repeat 0 0;}
+/*详细内容*/
+.detail-wrap{position: relative; margin-top: 50px;}
+.detail-con{padding:0 20px; margin-bottom: 20px; width: 900px;}
+.detail-con h2{font-size: 20px; margin-bottom: 40px;}
+.detail-item{ margin-bottom: 20px;}
+.detail-item h3{font-size: 16px; background: #f2f4f6; padding: 10px; margin-bottom: 20px;}
+.detail-item p{line-height: 2; text-indent: 2em;}
