@@ -133,11 +133,8 @@ $(function(){
 			self.getSearchLink();
 		});
 
-		this.searchTipsObj.click(function(e){
-			var liObj = $.fn.checkEvent(e,"LI");
-			if(liObj){
-				self.linkSearch(liObj);
-			}
+		this.searchTipsObj.delegate("li","click",function(){
+			self.linkSearch(this);
 		});
 
 		this.checkSearch = false;
@@ -153,6 +150,18 @@ $(function(){
 		this.searchConObj.blur(function(){
 			if(self.checkSearch)return false;
 			self.clearSearchTipsObj();
+		});
+		this.searchChildObj.delegate("li","mouseenter",function(){
+			$(this).addClass('on');
+		});
+		this.searchChildObj.delegate("li","mouseleave",function(){
+			$(this).removeClass('on');
+		});
+		this.searchTipsObj.delegate("li","mouseenter",function(){
+			$(this).addClass('on');
+		});
+		this.searchTipsObj.delegate("li","mouseleave",function(){
+			$(this).removeClass('on');
 		});
 	}
 
