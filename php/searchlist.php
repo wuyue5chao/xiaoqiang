@@ -1,103 +1,103 @@
 <?php
 	$ajaxData = array(
-		code => 0,//返回结果编码，0为成功，其他为失败
-		msg => "成功",//返回结果内容，成功或者其他错误信息
-		info => array(
-			cond => array(
+		'code' => 0,//返回结果编码，0为成功，其他为失败
+		'msg' => "成功",//返回结果内容，成功或者其他错误信息
+		'info' => array(
+			'cond' => array(
 					array(
-						key=>"ay",
-						type=>"float",
-						cn=>"案由",
-						child=>array(
-							array(cond=>"我是一号测试",num=>3000),
-							array(cond=>"我是二号测试",num=>3000),
-							array(cond=>"我是三号测试",num=>3000),
-							array(cond=>"我是四号测试",num=>3000),
-							array(cond=>"我是五号测试",num=>3000),
-							array(cond=>"我是六号测试",num=>3000),
-							array(cond=>"我是懒得写了",num=>3000)
+						'key'=>"ay",
+						'type'=>"float",
+						'cn'=>"案由",
+						'child'=>array(
+							array('cond'=>"我是一号测试",'num'=>3000),
+							array('cond'=>"我是二号测试",'num'=>3000),
+							array('cond'=>"我是三号测试",'num'=>3000),
+							array('cond'=>"我是四号测试",'num'=>3000),
+							array('cond'=>"我是五号测试",'num'=>3000),
+							array('cond'=>"我是六号测试",'num'=>3000),
+							array('cond'=>"我是懒得写了",'num'=>3000)
 						)
 					),
 					array(
-						key=>"slfy",
-						type=>"float",
-						cn=>"审理法院",
-						child=>array(
+						'key'=>"slfy",
+						'type'=>"float",
+						'cn'=>"审理法院",
+						'child'=>array(
 							array(
-								title=>"山西省",
-								child=>array(
-									array(cond=>"我是一号测试",num=>3000),
-									array(cond=>"我是二号测试",num=>3000),
-									array(cond=>"我是三号测试",num=>3000),
-									array(cond=>"我是四号测试",num=>3000),
-									array(cond=>"我是五号测试",num=>3000),
-									array(cond=>"我是六号测试",num=>3000),
-									array(cond=>"我是懒得写了",num=>3000)
+								'title'=>"山西省",
+								'child'=>array(
+									array('cond'=>"我是一号测试",'num'=>3000),
+									array('cond'=>"我是二号测试",'num'=>3000),
+									array('cond'=>"我是三号测试",'num'=>3000),
+									array('cond'=>"我是四号测试",'num'=>3000),
+									array('cond'=>"我是五号测试",'num'=>3000),
+									array('cond'=>"我是六号测试",'num'=>3000),
+									array('cond'=>"我是懒得写了",'num'=>3000)
 								),
 							),
 							array(
-								title=>"陕西省",
-								child=>array(
-									array(cond=>"我是一号测试",num=>3000),
-									array(cond=>"我是二号测试",num=>3000),
-									array(cond=>"我是三号测试",num=>3000),
-									array(cond=>"我是四号测试",num=>3000),
-									array(cond=>"我是五号测试",num=>3000),
-									array(cond=>"我是六号测试",num=>3000),
-									array(cond=>"我是懒得写了",num=>3000)
+								'title'=>"陕西省",
+								'child'=>array(
+									array('cond'=>"我是一号测试",'num'=>3000),
+									array('cond'=>"我是二号测试",'num'=>3000),
+									array('cond'=>"我是三号测试",'num'=>3000),
+									array('cond'=>"我是四号测试",'num'=>3000),
+									array('cond'=>"我是五号测试",'num'=>3000),
+									array('cond'=>"我是六号测试",'num'=>3000),
+									array('cond'=>"我是懒得写了",'num'=>3000)
 								)
 							)
 						)
 					),
 					array(
-						key=>"ajxz",
-						type=>"select",
-						cn=>"案件性质",
-						child=>array(
-							array(cond=>"判决",num=>3000),
-							array(cond=>"裁定",num=>3000),
-							array(cond=>"其他",num=>3000)
+						'key'=>"ajxz",
+						'type'=>"select",
+						'cn'=>"案件性质",
+						'child'=>array(
+							array('cond'=>"判决",'num'=>3000),
+							array('cond'=>"裁定",'num'=>3000),
+							array('cond'=>"其他",'num'=>3000)
 						)
 					),
 					array(
-						key=>"ajlx",
-						type=>"select",
-						cn=>"案件类型",
-						child=>array(
-							array(cond=>"民事",num=>3000),
-							array(cond=>"刑事",num=>3000),
-							array(cond=>"行政",num=>3000),
-							array(cond=>"执行",num=>3000),
-							array(cond=>"其他",num=>3000)
+						'key'=>"ajlx",
+						'type'=>"select",
+						'cn'=>"案件类型",
+						'child'=>array(
+							array('cond'=>"民事",'num'=>3000),
+							array('cond'=>"刑事",'num'=>3000),
+							array('cond'=>"行政",'num'=>3000),
+							array('cond'=>"执行",'num'=>3000),
+							array('cond'=>"其他",'num'=>3000)
 						)
 					),
 					array(
-						key=>"slcx",
-						type=>"select",
-						cn=>"审理程序",
-						child=>array(
-							array(cond=>"一审",num=>3000),
-							array(cond=>"二审",num=>3000),
-							array(cond=>"再审",num=>3000),
-							array(cond=>"其他",num=>3000)
+						'key'=>"slcx",
+						'type'=>"select",
+						'cn'=>"审理程序",
+						'child'=>array(
+							array('cond'=>"一审",'num'=>3000),
+							array('cond'=>"二审",'num'=>3000),
+							array('cond'=>"再审",'num'=>3000),
+							array('cond'=>"其他",'num'=>3000)
 						)
 					),
 					array(
-						key=>"spnf",
-						type=>"select",
-						cn=>"审判年份",
-						child=>array(
-							array(cond=>"2015",num=>3000),
-							array(cond=>"2014",num=>3000),
-							array(cond=>"2013",num=>3000),
-							array(cond=>"执行",num=>3000),
-							array(cond=>"2012",num=>3000)
+						'key'=>"spnf",
+						'type'=>"select",
+						'cn'=>"审判年份",
+						'child'=>array(
+							array('cond'=>"2015",'num'=>3000),
+							array('cond'=>"2014",'num'=>3000),
+							array('cond'=>"2013",'num'=>3000),
+							array('cond'=>"执行",'num'=>3000),
+							array('cond'=>"2012",'num'=>3000)
 						)
 					)
 				),
-			searchList => array()
+			'searchList' => array()
 		),
-		searchTime => $_POST['searchTime']//这个前端传什么，后段就返回什么，用于前端验证的
+		'searchTime' => $_POST['searchTime']//这个前端传什么，后段就返回什么，用于前端验证的
 	);
 
 	print(json_encode($ajaxData));
