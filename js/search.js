@@ -45,7 +45,7 @@ $(function(){
 		var searchCon = this.searchConObj.val();
 		var formObj = $('<form action="/xiaoqiang/search.html" target="_self" method="get"></form>');
 		var html = ['<input type="hidden" name="type" value="'+this.searchType+'">'];
-		html.push('<input type="hidden" name="con" value="'+encodeURIComponent(searchCon)+'">');
+		html.push('<input type="hidden" name="keyword" value="'+encodeURIComponent(searchCon)+'">');
 		formObj.html(html.join(","));
 		$("body").append(formObj);
 		formObj.submit();
