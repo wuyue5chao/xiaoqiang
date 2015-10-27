@@ -104,8 +104,8 @@ $(function(){
 		})
 	}
 
-	this.createFloatCondHtml = function(data){
-		var html = '<div class="item" data-t="float" data-k="'+data['key']+'"><h3><a href="javascript:void(0)">'+data['cn']+'</a></h3><i class="arrow more">></i><span class="borderout"></span></div>';
+	this.createFloatCondHtml = function(data,i){
+		var html = '<div class="item" data-t="float" data-k="'+data['key']+'"'+(i==0? ' style="border-top-color:#f2f4f6"' : '')+'><h3><a href="javascript:void(0)">'+data['cn']+'</a></h3><i class="arrow more">></i><span'+(i==0 ? ' style="height:45px;top:-1px;"' : '')+' class="borderout"></span></div>';
 		return html;
 	}
 
@@ -150,13 +150,6 @@ $(function(){
 						conditionDivObj.eq(d).removeClass('item-on');
 					}
 					$(this).addClass("item-on");
-					if(conditionDivObj.index(this) == 0){
-						$(this).css("border-top-color","#f2f4f6");
-						$(this).children('span').eq(0).css({
-							"top":"-1px",
-							"height":"45px"
-						});
-					}
 				},function(){
 					$(this).removeClass("item-on");
 				});
@@ -194,7 +187,7 @@ $(function(){
 		var floatKey = new Array();
 		for(var i=0,ilen=data.length;i<ilen;i++){
 			switch (data[i]['type']){
-				case "float" : floatKey.push(data[i]['key']);html.push(this.createFloatCondHtml(data[i]));this.createFloatCondLayerHtml(data[i]);break;
+				case "float" : floatKey.push(data[i]['key']);html.push(this.createFloatCondHtml(data[i],i));this.createFloatCondLayerHtml(data[i]);break;
 				case "select" : html.push(this.createSelectCondHtml(data[i]));break;
 			}
 		}
