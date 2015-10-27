@@ -265,6 +265,8 @@ $(function(){
 		var nowTime = new Date().getTime();
 		if(nowTime - this.selectConditionTime < 800)return false;
 		this.selectConditionTime = nowTime;
+		this.ajaxScrollTipsObj.children('a').html("正在加载中...");
+		this.ajaxScrollTipsObj.show();
 		setTimeout(function(){
 			self.getSearchListData();
 		},800);
