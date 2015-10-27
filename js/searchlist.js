@@ -7,6 +7,8 @@ $(function(){
 	this.checkSearchListAjax = false;
 	this.checkCollecAjax = false;
 	this.checkCreateCondition = true;
+	this.selectConditionObj = "";
+	this.selectConditionTime = new Date().getTime();
 
 	this.createDomObj = function(){
 		this.conditionSelectObj = $("#conditionSelectObj");
@@ -25,7 +27,8 @@ $(function(){
 			var thiskeyVal = thisDataArr[i].split("=");
 			this.searchData[thiskeyVal[0]] = [decodeURIComponent(decodeURI(thiskeyVal[1]))];
 		}
-		this.searchData['searchTime'] = new Date().getTime();
+
+		this.searchData['searchTime'] = 0;
 	}
 
 	this.createCondSelectHtml = function(){
@@ -39,6 +42,7 @@ $(function(){
 	}
 
 	this.getSearchListPostData = function(){
+		this.searchData['searchTime'] = new Date().getTime();
 		var postData = {
 			type : this.searchData['type'],
 			page : this.searchPage,
@@ -134,14 +138,24 @@ $(function(){
 	}
 
 	this.createFloatCondMouseEvent = function(data){
+		var self = this;
 		var conditionDivObj = this.conditionObj.children("div");
 		for(var i=0,ilen=conditionDivObj.length;i<ilen;i++){
 			var thisK = conditionDivObj.eq(i).attr("data-k");
 			if($.inArray(thisK,data)>-1){
-				new mouseShowDiv(thisK+"LayerObj",conditionDivObj.eq(i)[0],200,200,function(){
+				new mouseShowDiv(thisK+"LayerObj",conditionDivObj.eq(i)[0],10,200,function(){
+
+					for(var d=0,dlen=conditionDivObj.length;d<dlen;d++){
+						if(!conditionDivObj.eq(d)[0].className.indexOf('item_on')<0)continue;
+						conditionDivObj.eq(d).removeClass('item-on');
+					}
 					$(this).addClass("item-on");
 					if(conditionDivObj.index(this) == 0){
-						$(this).css("border-top","0px");
+						$(this).css("border-top-color","#f2f4f6");
+						$(this).children('span').eq(0).css({
+							"top":"-1px",
+							"height":"45px"
+						});
 					}
 				},function(){
 					$(this).removeClass("item-on");
@@ -253,7 +267,14 @@ $(function(){
 
 		this.clearSearchRequestData();
 		this.createCondSelectHtml();
-		this.getSearchListData();
+		var self = this;
+		if(this.selectConditionObj)clearTimeout(this.selectConditionObj);
+		var nowTime = new Date().getTime();
+		if(nowTime - this.selectConditionTime < 800)return false;
+		this.selectConditionTime = nowTime;
+		setTimeout(function(){
+			self.getSearchListData();
+		},800);
 	}
 
 	this.clearSearchRequestData = function(){
