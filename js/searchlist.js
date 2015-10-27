@@ -6,6 +6,7 @@ $(function(){
 	this.listMaxNum = 20;
 	this.checkSearchListAjax = false;
 	this.checkCollecAjax = false;
+	this.checkCreateCondition = true;
 
 	this.createDomObj = function(){
 		this.conditionSelectObj = $("#conditionSelectObj");
@@ -13,6 +14,7 @@ $(function(){
 		this.conditionObj = $("#conditionObj");
 		this.searchListObj = $("#searchListObj");
 		this.collectionObj = $("#collectionObj");
+		this.ajaxScrollTipsObj = $("#ajaxScrollTipsObj");
 	}
 
 	this.createSearchData = function(){
@@ -21,7 +23,7 @@ $(function(){
 		var thisDataArr = thisDataStr.split("&");
 		for(var i=0,ilen=thisDataArr.length;i<ilen;i++){
 			var thiskeyVal = thisDataArr[i].split("=");
-			this.searchData[thiskeyVal[0]] = [thiskeyVal[1]];
+			this.searchData[thiskeyVal[0]] = [decodeURIComponent(decodeURI(thiskeyVal[1]))];
 		}
 		this.searchData['searchTime'] = new Date().getTime();
 	}
@@ -29,29 +31,68 @@ $(function(){
 	this.createCondSelectHtml = function(){
 		var html = [];
 		for(var i=0,ilen=this.searchData['keyword'].length;i<ilen;i++){
-			html.push('<a href="javascript:void(0);" class="keyword">'+decodeURIComponent(decodeURI(this.searchData['keyword'][i]))+'<em class="close">X</em></a>');
+			var thisV = decodeURIComponent(decodeURI(this.searchData['keyword'][i]));
+			var searchCond = (thisV.indexOf("_")>-1 && thisV.split("_").length==3) ? thisV.split("_")[2]:  thisV;
+			html.push('<a href="javascript:void(0);" class="keyword">'+searchCond+'<em class="close">X</em></a>');
 		}
 		this.conditionSelectObj.html(html.join(""));
+	}
+
+	this.getSearchListPostData = function(){
+		var postData = {
+			type : this.searchData['type'],
+			page : this.searchPage,
+			searchTime : this.searchData['searchTime'],
+		}
+
+		for(var i=0,ilen=this.searchData['keyword'].length;i<ilen;i++){
+			var thisCond = this.searchData['keyword'][i].split("_");
+			if(thisCond.length==1){
+				postData['keyword'] = this.searchData['keyword'][i];
+				continue;
+			}
+			var thisK = thisCond[0];
+			var thisId = thisCond[1];
+			if(!postData[thisK+"_id"])postData[thisK+"_id"] = new Array();
+			postData[thisK+"_id"].push(thisId);
+		}
+
+		for(var k in postData){
+			if(postData[k].join)postData[k] = postData[k].join(",");
+		}
+
+		return postData;
 	}
 
 	this.getSearchListData = function(){
 		if(this.checkSearchListAjax)return false;
 		this.checkSearchListAjax = true;
 		var self = this;
+		this.ajaxScrollTipsObj.children('a').html("正在加载中...");
+		this.ajaxScrollTipsObj.show();
 		$.ajax({
 			url : "/xiaoqiang/php/searchlist.php",
-			data : "type="+this.searchData['type'].join(",")+"&keyword="+this.searchData['keyword'].join(",")+"&page="+this.searchPage+"&searchTime="+this.searchData['searchTime'],
+			data : this.getSearchListPostData(),
 			dataType : "json",
 			type : "post",
 			success : function(data){
+				self.ajaxScrollTipsObj.hide();
+				self.checkSearchListAjax = false;
 				if(data.code!==0)return false;
 				if(data.searchTime!=self.searchData['searchTime'])return false;
-				self.createSearchCondHtml(data['info']['cond']);
-				self.createSeatchCountHtml(data['info']['count']);
+				if(self.checkCreateCondition){
+					self.createSearchCondHtml(data['info']['cond']);
+					self.checkCreateCondition = false;
+				}else{
+					self.resetSearchCondHtml(data['info']['cond']);
+				}
+				if(data['info']['searchList']['page'] == 1)self.createSeatchCountHtml(data['info']['count']);
 				if(data['info']['searchList']['page'] != self.searchPage)return false;
 				self.createSearchListHtml(data['info']['searchList']['list']);
-				if(data['info']['searchList']['count'] == self.listMaxNum){
-					self.checkSearchListAjax = false;
+				if(data['info']['searchList']['count'] < self.listMaxNum){
+					self.checkSearchListAjax = true;
+					self.ajaxScrollTipsObj.show();
+					self.ajaxScrollTipsObj.children('a').html("数据已经全部加载");
 				}
 			},error : function(){
 				self.checkSearchListAjax = false;
@@ -64,11 +105,11 @@ $(function(){
 		return html;
 	}
 
-	this.createFloatCondHastitleHtml = function(data){
+	this.createFloatCondHastitleHtml = function(key,data){
 		var html = ['<div class="column"><dl><dt><strong>'+data['title']+'</strong></dt>'];
 
 		for(var i=0,ilen=data['child'].length;i<ilen;i++){
-			html.push('<dd><label><input type="checkbox" class="ipt" /><span class="txt">'+data['child'][i]['cond']+'</span><em class="num">('+data['child'][i]['num']+')</em></label></dd>');
+			html.push('<dd><label><input type="checkbox" value="'+key+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'" data-t="cond" class="ipt" /><span class="txt">'+data['child'][i]['cond']+'</span><em class="num">('+data['child'][i]['num']+')</em></label></dd>');
 		}
 
 		html.push('</dd></dl></div>');
@@ -76,17 +117,17 @@ $(function(){
 		return html.join("");
 	}
 
-	this.createFloatCondNoHastitleHtml = function(data){
-		return '<div class="column"><label><input type="checkbox" class="ipt" /><span class="txt">'+data['cond']+'</span><em class="num">('+data['num']+')</em></label></div>';
+	this.createFloatCondNoHastitleHtml = function(key,data){
+		return '<div class="column"><label><input type="checkbox" class="ipt" value="'+key+"_"+data['id']+"_"+data['cond']+'" data-t="cond"/><span class="txt">'+data['cond']+'</span><em class="num">('+data['num']+')</em></label></div>';
 	}
 
 	this.createFloatCondLayerHtml = function(data){
 		var html = ['<div class="down-layer" id="'+data['key']+'LayerObj" style="display:none;">'];
 		for(var i=0,ilen=data['child'].length;i<ilen;i++){
 			if(data['child'][i]['title']){
-				html.push(this.createFloatCondHastitleHtml(data['child'][i]));
+				html.push(this.createFloatCondHastitleHtml(data['key'],data['child'][i]));
 			}else{
-				html.push(this.createFloatCondNoHastitleHtml(data['child'][i]));
+				html.push(this.createFloatCondNoHastitleHtml(data['key'],data['child'][i]));
 			}
 		}
 		this.conditionObj.after(html.join(""));
@@ -97,10 +138,9 @@ $(function(){
 		for(var i=0,ilen=conditionDivObj.length;i<ilen;i++){
 			var thisK = conditionDivObj.eq(i).attr("data-k");
 			if($.inArray(thisK,data)>-1){
-				new mouseShowDiv(thisK+"LayerObj",conditionDivObj.eq(i)[0],300,300,function(){
+				new mouseShowDiv(thisK+"LayerObj",conditionDivObj.eq(i)[0],200,200,function(){
 					$(this).addClass("item-on");
 					if(conditionDivObj.index(this) == 0){
-						console.log(11);
 						$(this).css("border-top","0px");
 					}
 				},function(){
@@ -127,7 +167,7 @@ $(function(){
 	this.createSelectCondHtml = function(data){
 		var html = ['<div class="item"  data-t="float" data-k="'+data['key']+'"><h3><a href="javascript:void(0);"><i class="more">-</i> '+data['cn']+'</a></h3><ul class="second-list">'];
 		for(var i=0,ilen=data['child'].length;i<ilen;i++){
-			html.push('<li><label><input type="checkbox"/> '+data['child'][i]['cond']+'<em>('+data['child'][i]['num']+')</em></label></li>');
+			html.push('<li><label><input value="'+data['key']+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'" data-t="cond" type="checkbox"/> '+data['child'][i]['cond']+'<em>('+data['child'][i]['num']+')</em></label></li>');
 		}
 
 		html.push('</ul></div>');
@@ -148,6 +188,10 @@ $(function(){
 		this.conditionObj.html(html.join(""));
 		this.setFloatCondLayerHeight(floatKey);
 		this.createFloatCondMouseEvent(floatKey);
+	}
+
+	this.resetSearchCondHtml = function(data){
+		console.log(111);
 	}
 
 	this.createSeatchCountHtml = function(data){
@@ -180,7 +224,7 @@ $(function(){
 		this.checkCollecAjax = true;
 		$.ajax({
 			url : "/xiaoqiang/php/collection.php",
-			data : "type="+this.searchData['type']+"&keyword="+this.searchData['keyword'],
+			data : "type="+this.searchData['type'].join(",")+"&keyword="+this.searchData['keyword'].join(","),
 			type : "post",
 			dataType : "json",
 			success : function(data){
@@ -194,6 +238,30 @@ $(function(){
 		});
 	}
 
+	this.selectCondition = function(obj){
+		var thisV = obj.value;
+		if(obj.checked){
+			this.searchData['keyword'].push(thisV);
+		}else{
+			var temData = new Array();
+			for(var i=0,ilen=this.searchData['keyword'].length;i<ilen;i++){
+				if(this.searchData['keyword'][i] == thisV)continue;
+				temData.push(this.searchData['keyword'][i]);
+			}
+			this.searchData['keyword'] = temData;
+		}
+
+		this.clearSearchRequestData();
+		this.createCondSelectHtml();
+		this.getSearchListData();
+	}
+
+	this.clearSearchRequestData = function(){
+		this.searchPage = 1;
+		this.checkSearchListAjax = false;
+		this.searchListObj.html("");
+	}
+
 	this.createEvent = function(){
 		var self = this;
 		this.searchListObj.delegate("a","click",function(){
@@ -205,6 +273,10 @@ $(function(){
 
 		this.collectionObj.click(function(){
 			self.collecCondition();
+		});
+
+		this.conditionObj.parent().delegate("input","click",function(){
+			self.selectCondition(this);
 		});
 
 		window.onscroll = function(){
