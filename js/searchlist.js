@@ -97,8 +97,12 @@ $(function(){
 		for(var i=0,ilen=conditionDivObj.length;i<ilen;i++){
 			var thisK = conditionDivObj.eq(i).attr("data-k");
 			if($.inArray(thisK,data)>-1){
-				new mouseShowDiv(thisK+"LayerObj",conditionDivObj.eq(i)[0],200,300,function(){
+				new mouseShowDiv(thisK+"LayerObj",conditionDivObj.eq(i)[0],300,300,function(){
 					$(this).addClass("item-on");
+					if(conditionDivObj.index(this) == 0){
+						console.log(11);
+						$(this).css("border-top","0px");
+					}
 				},function(){
 					$(this).removeClass("item-on");
 				});
