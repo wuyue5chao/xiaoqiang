@@ -2,12 +2,17 @@ $(function(){
 	this.searchData = new Object();
 
 	this.searchPage = 1;
+	this.clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+	this.listMaxNum = 20;
+	this.checkSearchListAjax = false;
+	this.checkCollecAjax = false;
 
 	this.createDomObj = function(){
 		this.conditionSelectObj = $("#conditionSelectObj");
 		this.searchNumObj = $("#searchNumObj");
 		this.conditionObj = $("#conditionObj");
 		this.searchListObj = $("#searchListObj");
+		this.collectionObj = $("#collectionObj");
 	}
 
 	this.createSearchData = function(){
@@ -23,17 +28,19 @@ $(function(){
 
 	this.createCondSelectHtml = function(){
 		var html = [];
-		for(var i=0,ilen=this.searchData['con'].length;i<ilen;i++){
-			html.push('<a href="javascript:void(0);" class="keyword">'+decodeURIComponent(decodeURI(this.searchData['con'][i]))+'<em class="close">X</em></a>');
+		for(var i=0,ilen=this.searchData['keyword'].length;i<ilen;i++){
+			html.push('<a href="javascript:void(0);" class="keyword">'+decodeURIComponent(decodeURI(this.searchData['keyword'][i]))+'<em class="close">X</em></a>');
 		}
 		this.conditionSelectObj.html(html.join(""));
 	}
 
 	this.getSearchListData = function(){
+		if(this.checkSearchListAjax)return false;
+		this.checkSearchListAjax = true;
 		var self = this;
 		$.ajax({
 			url : "/xiaoqiang/php/searchlist.php",
-			data : "type="+this.searchData['type'].join(",")+"&con="+this.searchData['con'].join(",")+"&page="+this.searchPage+"&searchTime="+this.searchData['searchTime'],
+			data : "type="+this.searchData['type'].join(",")+"&keyword="+this.searchData['keyword'].join(",")+"&page="+this.searchPage+"&searchTime="+this.searchData['searchTime'],
 			dataType : "json",
 			type : "post",
 			success : function(data){
@@ -43,6 +50,11 @@ $(function(){
 				self.createSeatchCountHtml(data['info']['count']);
 				if(data['info']['searchList']['page'] != self.searchPage)return false;
 				self.createSearchListHtml(data['info']['searchList']['list']);
+				if(data['info']['searchList']['count'] == self.listMaxNum){
+					self.checkSearchListAjax = false;
+				}
+			},error : function(){
+				self.checkSearchListAjax = false;
 			}
 		})
 	}
@@ -78,6 +90,20 @@ $(function(){
 			}
 		}
 		this.conditionObj.after(html.join(""));
+	}
+
+	this.createFloatCondMouseEvent = function(data){
+		var conditionDivObj = this.conditionObj.children("div");
+		for(var i=0,ilen=conditionDivObj.length;i<ilen;i++){
+			var thisK = conditionDivObj.eq(i).attr("data-k");
+			if($.inArray(thisK,data)>-1){
+				new mouseShowDiv(thisK+"LayerObj",conditionDivObj.eq(i)[0],200,300,function(){
+					$(this).addClass("item-on");
+				},function(){
+					$(this).removeClass("item-on");
+				});
+			}
+		}
 	}
 
 	this.setFloatCondLayerHeight = function(data){
@@ -117,6 +143,7 @@ $(function(){
 
 		this.conditionObj.html(html.join(""));
 		this.setFloatCondLayerHeight(floatKey);
+		this.createFloatCondMouseEvent(floatKey);
 	}
 
 	this.createSeatchCountHtml = function(data){
@@ -137,23 +164,56 @@ $(function(){
 	this.createSearchListHtml = function(data){
 		var html = new Array();
 		for(var i=0,ilen=data.length;i<ilen;i++){
-			html.push('<div class="item-info'+(i%2 ? " hover" : "")+'">'+this.createSearchListLabelHtml(data[i]['label'])+'<h3><a href="javascript:void(0);" class="fontblue">'+data[i]['title']+'</a></h3><p class="text">'+data[i]['content']+'...</p></div>');
+			html.push('<div class="item-info'+(i%2 ? " hover" : "")+'">'+this.createSearchListLabelHtml(data[i]['label'])+'<h3><a href="javascript:void(0);" data-t="detail" data-i="'+data[i]['id']+'" class="fontblue">'+data[i]['title']+'</a></h3><p class="text">'+data[i]['content']+'...</p></div>');
 		}
 
 		this.searchListObj.append(html);
 	}
 
+	this.collecCondition = function(){
+		if(this.checkCollecAjax)return false;
+		var self = this;
+		this.checkCollecAjax = true;
+		$.ajax({
+			url : "/xiaoqiang/php/collection.php",
+			data : "type="+this.searchData['type']+"&keyword="+this.searchData['keyword'],
+			type : "post",
+			dataType : "json",
+			success : function(data){
+				self.checkCollecAjax = false;
+				if(data.code !== 0){
+					alert(data.msg);
+				}else{
+					alert("收藏成功");
+				}
+			}
+		});
+	}
+
 	this.createEvent = function(){
-		// this.conditionObj.delegate("div","mouseenter",function(){
-		// 	var thisObj = $(this);
-		// 	var thisT = thisObj.attr("data-t");
-		// 	if(thisT!="float")return false;
-		// });
-		// this.conditionObj.delegate("div","mouseleave",function(){
-		// 	var thisObj = $(this);
-		// 	var thisT = thisObj.attr("data-t");
-		// 	if(thisT!="float")return false;
-		// });
+		var self = this;
+		this.searchListObj.delegate("a","click",function(){
+			var thisT = $(this).attr("data-t");
+			if(thisT!="detail")return false;
+			var thisId = $(this).attr("data-i");
+			window.location.href = "/xiaoqiang/detail.html?case_id="+thisId+"&keyword="+self.searchData['keyword'];
+		});
+
+		this.collectionObj.click(function(){
+			self.collecCondition();
+		});
+
+		window.onscroll = function(){
+			if(self.checkSearchListAjax)return false;
+			var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+			var searchListHeight = self.searchListObj.height();
+
+			if(self.clientHeight + scrollTop > searchListHeight*3/4){
+				++self.searchPage;
+				self.getSearchListData();
+			}
+
+		};
 	}
 
 	this.init = function(){
