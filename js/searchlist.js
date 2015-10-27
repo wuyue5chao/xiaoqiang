@@ -143,7 +143,7 @@ $(function(){
 		for(var i=0,ilen=conditionDivObj.length;i<ilen;i++){
 			var thisK = conditionDivObj.eq(i).attr("data-k");
 			if($.inArray(thisK,data)>-1){
-				new mouseShowDiv(thisK+"LayerObj",conditionDivObj.eq(i)[0],10,200,function(){
+				new mouseShowDiv(thisK+"LayerObj",conditionDivObj.eq(i)[0],50,200,function(){
 
 					for(var d=0,dlen=conditionDivObj.length;d<dlen;d++){
 						if(!conditionDivObj.eq(d)[0].className.indexOf('item_on')<0)continue;
