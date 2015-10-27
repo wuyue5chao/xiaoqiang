@@ -60,7 +60,7 @@ $(function(){
 	}
 
 	this.createFloatCondHtml = function(data){
-		var html = '<div class="item" data-t="float" data-k="'+data['key']+'"><h3><a href="javascript:void(0)">'+data['cn']+'</a></h3><i class="arrow more">></i></div>';
+		var html = '<div class="item" data-t="float" data-k="'+data['key']+'"><h3><a href="javascript:void(0)">'+data['cn']+'</a></h3><i class="arrow more">></i><span class="borderout"></span></div>';
 		return html;
 	}
 
