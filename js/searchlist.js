@@ -47,6 +47,7 @@ $(function(){
 			type : this.searchData['type'],
 			page : this.searchPage,
 			searchTime : this.searchData['searchTime'],
+			searchNum : this.listMaxNum
 		}
 
 		for(var i=0,ilen=this.searchData['keyword'].length;i<ilen;i++){
