@@ -379,9 +379,11 @@ $(function(){
 		this.clearSearchRequestData();
 		this.createCondSelectHtml();
 		var self = this;
-		if(this.selectConditionObj)clearTimeout(this.selectConditionObj);
+		
 		var nowTime = new Date().getTime();
-		if(nowTime - this.selectConditionTime < 800)return false;
+		if(nowTime - this.selectConditionTime < 500){
+			if(this.selectConditionObj)clearTimeout(this.selectConditionObj);
+		}
 		this.selectConditionTime = nowTime;
 		this.ajaxScrollTipsObj.children('a').html("正在加载中...");
 		this.ajaxScrollTipsObj.show();
