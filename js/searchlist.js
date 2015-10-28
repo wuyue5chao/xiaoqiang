@@ -110,7 +110,7 @@ $(function(){
 	}
 
 	this.createFloatCondHastitleHtml = function(key,data){
-		var html = ['<div class="column"><dl><dt><strong>'+data['title']+'</strong></dt>'];
+		var html = ['<div class="column" data-title="'+data['title']+'"><dl><dt><strong>'+data['title']+'</strong></dt>'];
 
 		for(var i=0,ilen=data['child'].length;i<ilen;i++){
 			html.push('<dd><label><input type="checkbox" value="'+key+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'" data-t="cond" class="ipt" /><span class="txt">'+data['child'][i]['cond']+'</span><em class="num">('+data['child'][i]['num']+')</em></label></dd>');
@@ -138,6 +138,7 @@ $(function(){
 	}
 
 	this.createFloatCondMouseEvent = function(data){
+		if(!data || !data.length)return false;
 		var self = this;
 		var conditionDivObj = this.conditionObj.children("div");
 		for(var i=0,ilen=conditionDivObj.length;i<ilen;i++){
@@ -158,6 +159,7 @@ $(function(){
 	}
 
 	this.setFloatCondLayerHeight = function(data){
+		if(!data || !data.length)return false;
 		var titleHeight = this.conditionObj.height();
 		for(var i=0,ilen=data.length;i<ilen;i++){
 			var thisObj = $("#"+data[i]+"LayerObj");
@@ -197,8 +199,124 @@ $(function(){
 		this.createFloatCondMouseEvent(floatKey);
 	}
 
+	this.resetFloatCondHastitleHtml = function(key,data){
+		var divObj = $("#"+key+"LayerObj").children("div[data-title='"+data['title']+"']");
+		var inputObj = divObj.find("input[data-t='cond']");
+		for(var i=0,ilen=data['child'].length;i<ilen;i++){
+			var thisVal = [key,data['child'][i]['id'],data['child'][i]['cond']].join("_");
+			var thisInputObj = inputObj.filter("[value='"+thisVal+"']");
+			if(thisInputObj.length){
+				thisInputObj.nextAll("em").html("("+data['child'][i]['num']+")");
+				thisInputObj[0].disabled = false;
+				var index = inputObj.index(thisInputObj);
+				inputObj[index] = false;
+			}else{
+				divObj.append('<dd><label><input type="checkbox" value="'+key+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'" data-t="cond" class="ipt" /><span class="txt">'+data['child'][i]['cond']+'</span><em class="num">('+data['child'][i]['num']+')</em></label></dd>');
+			}
+		}
+
+		for(var i=0,ilen=inputObj.length;i<ilen;i++){
+			if(!inputObj[i])continue;
+			inputObj[i].disabled = true;
+			inputObj.eq(i).nextAll("em").html("(0)");
+		}
+	}
+
+	this.resetFloatCondNoHastitleHtml = function(key,data){
+		var inputObj = $("#"+key+"LayerObj").find("input[data-t='cond'][value='"+([key,data['id'],data['cond']].join("_"))+"']");
+		if(inputObj.length){
+			inputObj.nextAll("em").html("("+data['num']+")");
+			inputObj[0].disabled = false;
+		}else{
+			$("#"+key+"LayerObj").append(this.createFloatCondNoHastitleHtml(key,data));
+		}
+	}
+
+	this.resetFloatCondLayerHtml = function(data){
+		var temKey = new Array();
+		var type = "";
+		for(var i=0,ilen=data['child'].length;i<ilen;i++){
+			if(data['child'][i]['title']){
+				this.resetFloatCondHastitleHtml(data['key'],data['child'][i]);
+				temKey.push(data['child'][i]['title']);
+				type= "title";
+			}else{
+				this.resetFloatCondNoHastitleHtml(data['key'],data['child'][i]);
+				temKey.push([data['key'],data['child'][i]['id'],data['child'][i]['cond']].join("_"));
+			}
+		}
+
+		if(type=="title"){
+			this.checkFloatCondHastitleHtml(data['key'],temKey);
+		}else{
+			this.checkFloatCondNoHastitleHtml(data['key'],temKey);
+		}
+	}
+
+	this.checkFloatCondHastitleHtml = function(key,data){
+		var divObj = $("#"+key+"LayerObj").children("div");
+		for(var i=0,ilen=divObj.length;i<ilen;i++){
+			var thisTitle = divObj.eq(i).attr("data-title");
+			if($.inArray(thisTitle,data)>-1)continue;
+			var inputObj = divObj.eq(i).find("input[data-t='cond']");
+			for(var k=0,klen=inputObj.length;k<klen;k++){
+				inputObj[k].disabled = true;
+				inputObj.eq(k).nextAll("em").html("(0)");
+			}
+		}
+	}
+
+	this.checkFloatCondNoHastitleHtml = function(key,data){
+		var inputObj = $("#"+key+"LayerObj").find("input[data-t='cond']");
+		for(var i=0,ilen=inputObj.length;i<ilen;i++){
+			var thisV = inputObj[i].value;
+			if($.inArray(thisV,data)>-1)continue;
+			inputObj[i].disabled = true;
+			inputObj.eq(i).nextAll("em").html("(0)");
+		}
+	}
+
+	this.resetSelectCondHtml = function(data){
+		var ulObj = this.conditionObj.children('div[data-k="'+data['key']+'"]').children('ul');
+		var inputObj = ulObj.find("input[data-t='cond']");
+		for(var i=0,ilen=data['child'].length;i<ilen;i++){
+			var thisVal = [data['key'],data['child'][i]['id'],data['child'][i]['cond']].join("_");
+			var thisInputObj = inputObj.filter("[value='"+thisVal+"']");
+			if(thisInputObj.length){
+				thisInputObj.nextAll("em").html("("+data['child'][i]['num']+")");
+				thisInputObj[0].disabled = false;
+				var index = inputObj.index(thisInputObj);
+				inputObj[index] = false;
+			}else{
+				var html = '<li><label><input value="'+thisVal+'" data-t="cond" type="checkbox"/> '+data['child'][i]['cond']+'<em>('+data['child'][i]['num']+')</em></label></li>';
+				ulObj.append(html);
+			}
+		}
+		for(var i=0,ilen=inputObj.length;i<ilen;i++){
+			if(!inputObj[i])continue;
+			inputObj[i].disabled = true;
+			inputObj.eq(i).nextAll("em").html("(0)");
+		}
+	}
+
 	this.resetSearchCondHtml = function(data){
-		console.log(111);
+		var floatKey = new Array();
+		for(var i=0,ilen=data.length;i<ilen;i++){
+			var thisCondDivObj = this.conditionObj.children('div[data-k="'+data[i]['key']+'"]');
+			if(thisCondDivObj.length){
+				switch (data[i]['type']){
+					case "float" : this.resetFloatCondLayerHtml(data[i]);break;
+					case "select" : this.resetSelectCondHtml(data[i]);break;
+				}
+			}else{
+				switch (data[i]['type']){
+					case "float" : floatKey.push(data[i]['key']);this.conditionObj.append(this.createFloatCondHtml(data[i],i));this.createFloatCondLayerHtml(data[i]);break;
+					case "select" : this.conditionObj.append(this.createSelectCondHtml(data[i]));break;
+				}
+			}
+		}
+		this.setFloatCondLayerHeight(floatKey);
+		this.createFloatCondMouseEvent(floatKey);
 	}
 
 	this.createSeatchCountHtml = function(data){
@@ -269,7 +387,7 @@ $(function(){
 		this.ajaxScrollTipsObj.show();
 		setTimeout(function(){
 			self.getSearchListData();
-		},800);
+		},500);
 	}
 
 	this.clearSearchRequestData = function(){
