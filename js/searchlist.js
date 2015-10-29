@@ -26,7 +26,7 @@ $(function(){
 		var thisDataArr = thisDataStr.split("&");
 		for(var i=0,ilen=thisDataArr.length;i<ilen;i++){
 			var thiskeyVal = thisDataArr[i].split("=");
-			var thisSearchVal = decodeURIComponent(decodeURI(thiskeyVal[1])).split(" ");
+			var thisSearchVal = decodeURIComponent(decodeURI(thiskeyVal[1])).replace(/\s+/g," ").split(" ");
 			this.searchData[thiskeyVal[0]] = [].concat(thisSearchVal);
 		}
 
