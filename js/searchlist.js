@@ -17,6 +17,7 @@ $(function(){
 		this.searchListObj = $("#searchListObj");
 		this.collectionObj = $("#collectionObj");
 		this.ajaxScrollTipsObj = $("#ajaxScrollTipsObj");
+		this.nodataObj = $("#nodataObj");
 	}
 
 	this.createSearchData = function(){
@@ -25,7 +26,8 @@ $(function(){
 		var thisDataArr = thisDataStr.split("&");
 		for(var i=0,ilen=thisDataArr.length;i<ilen;i++){
 			var thiskeyVal = thisDataArr[i].split("=");
-			this.searchData[thiskeyVal[0]] = [decodeURIComponent(decodeURI(thiskeyVal[1]))];
+			var thisSearchVal = decodeURIComponent(decodeURI(thiskeyVal[1])).split(" ");
+			this.searchData[thiskeyVal[0]] = [].concat(thisSearchVal);
 		}
 
 		this.searchData['searchTime'] = 0;
@@ -53,7 +55,8 @@ $(function(){
 		for(var i=0,ilen=this.searchData['keyword'].length;i<ilen;i++){
 			var thisCond = this.searchData['keyword'][i].split("_");
 			if(thisCond.length==1){
-				postData['keyword'] = this.searchData['keyword'][i];
+				if(!postData['keyword'])postData['keyword']=new Array();
+				postData['keyword'].push(this.searchData['keyword'][i]);
 				continue;
 			}
 			var thisK = thisCond[0];
@@ -409,6 +412,7 @@ $(function(){
 
 		this.clearSearchRequestData();
 		this.createCondSelectHtml();
+		this.checkedSearchData();
 
 		var self = this;
 		
@@ -422,6 +426,16 @@ $(function(){
 		setTimeout(function(){
 			self.getSearchListData();
 		},500);
+	}
+
+	this.checkedSearchData = function(){
+		if(this.searchData['keyword'] && this.searchData['keyword'].length){
+			this.nodataObj.hide();
+			this.nodataObj.siblings('div').show();
+		}else{
+			this.nodataObj.show();
+			this.nodataObj.siblings('div').hide();
+		}
 	}
 
 	this.clearSearchRequestData = function(){

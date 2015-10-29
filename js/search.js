@@ -44,6 +44,7 @@ $(function(){
 
 	this.subSearch = function(){
 		var searchCon = this.searchConObj.val();
+		if(searchCon === "")return false;
 		var formObj = $('<form action="/xiaoqiang/search.html" target="_self" method="get"></form>');
 		var html = ['<input type="hidden" name="type" value="'+this.searchType+'">'];
 		html.push('<input type="hidden" name="keyword" value="'+encodeURIComponent(searchCon)+'">');
