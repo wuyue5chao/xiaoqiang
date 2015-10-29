@@ -13,6 +13,7 @@ $(function(){
 		this.searchObj = $("#searchObj");
 		this.searchConObj = $("#searchConObj");
 		this.searchTipsObj = $("#searchTipsObj");
+		this.goTop = $("#goTop");
 	}
 
 	this.getDefSearchType = function(){
@@ -43,6 +44,7 @@ $(function(){
 
 	this.subSearch = function(){
 		var searchCon = this.searchConObj.val();
+		if(searchCon === "")return false;
 		var formObj = $('<form action="/xiaoqiang/search.html" target="_self" method="get"></form>');
 		var html = ['<input type="hidden" name="type" value="'+this.searchType+'">'];
 		html.push('<input type="hidden" name="keyword" value="'+encodeURIComponent(searchCon)+'">');
@@ -162,6 +164,10 @@ $(function(){
 		});
 		this.searchTipsObj.delegate("li","mouseleave",function(){
 			$(this).removeClass('on');
+		});
+
+		this.goTop.click(function(){
+			window.scrollTo(0,0)
 		});
 	}
 
