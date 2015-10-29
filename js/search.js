@@ -13,6 +13,7 @@ $(function(){
 		this.searchObj = $("#searchObj");
 		this.searchConObj = $("#searchConObj");
 		this.searchTipsObj = $("#searchTipsObj");
+		this.goTop = $("#goTop");
 	}
 
 	this.getDefSearchType = function(){
@@ -162,6 +163,10 @@ $(function(){
 		});
 		this.searchTipsObj.delegate("li","mouseleave",function(){
 			$(this).removeClass('on');
+		});
+
+		this.goTop.click(function(){
+			window.scrollTo(0,0)
 		});
 	}
 

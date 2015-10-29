@@ -36,7 +36,7 @@ $(function(){
 		for(var i=0,ilen=this.searchData['keyword'].length;i<ilen;i++){
 			var thisV = decodeURIComponent(decodeURI(this.searchData['keyword'][i]));
 			var searchCond = (thisV.indexOf("_")>-1 && thisV.split("_").length==3) ? thisV.split("_")[2]:  thisV;
-			html.push('<a href="javascript:void(0);" class="keyword">'+searchCond+'<em class="close">X</em></a>');
+			html.push('<a data-v="'+thisV+'" href="javascript:void(0);" class="keyword">'+searchCond+'<em class="close">X</em></a>');
 		}
 		this.conditionSelectObj.html(html.join(""));
 	}
@@ -106,7 +106,7 @@ $(function(){
 	}
 
 	this.createFloatCondHtml = function(data,i){
-		var html = '<div class="item" data-t="float" data-k="'+data['key']+'"'+(i==0? ' style="border-top-color:#f2f4f6"' : '')+'><h3><a href="javascript:void(0)">'+data['cn']+'</a></h3><i class="arrow more">></i><span'+(i==0 ? ' style="height:45px;top:-1px;"' : '')+' class="borderout"></span></div>';
+		var html = '<div class="item" data-t="float" data-k="'+data['key']+'"'+(i==0? ' style="border-top-color:#f2f4f6"' : '')+'><h3><a href="javascript:void(0)">'+data['cn']+'</a></h3><i class="arrow more">></i><span'+(i==0 ? ' style="height:42px;top:-1px;"' : '')+' class="borderout"></span></div>';
 		return html;
 	}
 
@@ -393,6 +393,37 @@ $(function(){
 		},500);
 	}
 
+	this.deleteCondition = function(obj){
+		var aObj = obj.parent();
+		var thisV = aObj.attr("data-v");
+		if(thisV.indexOf("_")>-1){
+			var inputObj = this.conditionObj.parent().find("input[data-t='cond'][value='"+thisV+"']");
+			if(inputObj.length)inputObj[0].checked = false;
+		}
+		var temCond = new Array();
+		for(var i=0,ilen=this.searchData['keyword'].length;i<ilen;i++){
+			if(this.searchData['keyword'][i] == thisV)continue;
+			temCond.push(this.searchData['keyword'][i]);
+		}
+		this.searchData['keyword'] = temCond;
+
+		this.clearSearchRequestData();
+		this.createCondSelectHtml();
+
+		var self = this;
+		
+		var nowTime = new Date().getTime();
+		if(nowTime - this.selectConditionTime < 500){
+			if(this.selectConditionObj)clearTimeout(this.selectConditionObj);
+		}
+		this.selectConditionTime = nowTime;
+		this.ajaxScrollTipsObj.children('a').html("正在加载中...");
+		this.ajaxScrollTipsObj.show();
+		setTimeout(function(){
+			self.getSearchListData();
+		},500);
+	}
+
 	this.clearSearchRequestData = function(){
 		this.searchPage = 1;
 		this.checkSearchListAjax = false;
@@ -414,6 +445,10 @@ $(function(){
 
 		this.conditionObj.parent().delegate("input","click",function(){
 			self.selectCondition(this);
+		});
+
+		this.conditionSelectObj.delegate("em","click",function(){
+			self.deleteCondition($(this));
 		});
 
 		window.onscroll = function(){
