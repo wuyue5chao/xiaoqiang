@@ -93,7 +93,7 @@ a:hover{color:#f18d22;}
 .detail-con{padding:0 20px; margin-bottom: 20px; width: 900px;}
 .detail-con h2{font-size: 20px; margin-bottom: 40px;}
 .detail-item{ margin-bottom: 20px;}
-.detail-item h3{font-size: 16px; background: #f2f4f6; padding: 10px; margin-bottom: 20px;}
+.detail-item h3{font-size: 16px; background: #f2f4f6; padding: 10px; margin-bottom: 20px; border-top: solid 2px #1a6389;}
 .detail-item p{line-height: 2; text-indent: 2em;}
 .catalog{position: relative; width: 260px;}
 .catalog-list{ padding: 20px; width:200px; background: #f2f4f6;}
