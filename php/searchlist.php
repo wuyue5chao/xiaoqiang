@@ -2,239 +2,239 @@
 	$ajaxData = array(
 		'code' => 0,//返回结果编码，0为成功，其他为失败
 		'msg' => "成功",//返回结果内容，成功或者其他错误信息
-		'info' => array(
-			'cond' => array(
+		'info' => array(//查询结果数据，cond是查询后的条件 count是查询出来的结果条目 searchList是查询出的列表数据
+			'cond' => array(//数组中每个子元素代表一个大的条件类型
 					array(
-						'key'=>"ay",
-						'type'=>"float",
-						'cn'=>"案由",
-						'child'=>array(
-							array('cond'=>"我是一号测试",'num'=>3000),
-							array('cond'=>"我是二号测试",'num'=>3000),
-							array('cond'=>"我是三号测试",'num'=>3000),
-							array('cond'=>"我是四号测试",'num'=>3000),
-							array('cond'=>"我是五号测试",'num'=>3000),
-							array('cond'=>"我是六号测试",'num'=>3000),
-							array('cond'=>"我是懒得写了",'num'=>3000)
+						'key'=>"reason",//条件的key 就是你当初网站上的那个查询的get里面的key
+						'type'=>"float",//这个案由和法院是float其他的是select 因为案由和法院条件是谈层弹出的，其他的是收缩表现的。
+						'cn'=>"案由",//条件中文名称
+						'child'=>array(//案由的数组内容和法院的是不一样的，这个要注意 数组中每个子元素都是一个查询条件
+							array('id'=>"123",'cond'=>"我是一号测试",'num'=>3000),//id就是查询的时候给后台的值 cond是中文敏刚才 num是有多少条数据
+							array('id'=>"124",'cond'=>"我是二号测试",'num'=>3000),
+							array('id'=>"125",'cond'=>"我是三号测试",'num'=>3000),
+							array('id'=>"126",'cond'=>"我是四号测试",'num'=>3000),
+							array('id'=>"127",'cond'=>"我是五号测试",'num'=>3000),
+							array('id'=>"128",'cond'=>"我是六号测试",'num'=>3000),
+							array('id'=>"129",'cond'=>"我是懒得写了",'num'=>3000)
 						)
 					),
 					array(
-						'key'=>"slfy",
-						'type'=>"float",
-						'cn'=>"审理法院",
-						'child'=>array(
+						'key'=>"court",//条件的key 就是你当初网站上的那个查询的get里面的key
+						'type'=>"float",//这个案由和法院是float其他的是select 因为案由和法院条件是谈层弹出的，其他的是收缩表现的。
+						'cn'=>"审理法院",//条件中文名称
+						'child'=>array(//案由的数组内容和法院的是不一样的，这个要注意 数组中每个子元素都是一个查询条件
 							array(
-								'title'=>"山西省",
-								'child'=>array(
-									array('cond'=>"北京市人民法院",'num'=>3000),
-									array('cond'=>"北京市人民法院",'num'=>3000),
-									array('cond'=>"东直门",'num'=>3000),
-									array('cond'=>"东直门",'num'=>3000),
-									array('cond'=>"北京市人民法院",'num'=>3000),
-									array('cond'=>"东直门",'num'=>3000),
-									array('cond'=>"北京市人民法院",'num'=>3000),
-									array('cond'=>"北京市人民法院",'num'=>3000),
-									array('cond'=>"北京市人民法院",'num'=>3000),
-									array('cond'=>"东直门",'num'=>3000),
-									array('cond'=>"东直门",'num'=>3000),
-									array('cond'=>"北京市人民法院",'num'=>3000),
-									array('cond'=>"东直门",'num'=>3000),
-									array('cond'=>"北京市人民法院",'num'=>3000),
-									array('cond'=>"北京市人民法院",'num'=>3000),
-									array('cond'=>"北京市人民法院",'num'=>3000),
-									array('cond'=>"东直门",'num'=>3000),
-									array('cond'=>"东直门",'num'=>3000),
-									array('cond'=>"北京市人民法院",'num'=>3000),
-									array('cond'=>"东直门",'num'=>3000),
-									array('cond'=>"北京市人民法院",'num'=>3000)
+								'title'=>"山西省",//省份，这个和案由数据结构不一样，请注意
+								'child'=>array(//当前省份里面的查询条件
+									array('id'=>"130",'cond'=>"北京市人民法院",'num'=>3000),//id就是查询的时候给后台的值 cond是中文敏刚才 num是有多少条数据
+									array('id'=>"131",'cond'=>"北京市人民法院",'num'=>3000),
+									array('id'=>"132",'cond'=>"东直门",'num'=>3000),
+									array('id'=>"133",'cond'=>"东直门",'num'=>3000),
+									array('id'=>"134",'cond'=>"北京市人民法院",'num'=>3000),
+									array('id'=>"135",'cond'=>"东直门",'num'=>3000),
+									array('id'=>"136",'cond'=>"北京市人民法院",'num'=>3000),
+									array('id'=>"137",'cond'=>"北京市人民法院",'num'=>3000),
+									array('id'=>"138",'cond'=>"北京市人民法院",'num'=>3000),
+									array('id'=>"139",'cond'=>"东直门",'num'=>3000),
+									array('id'=>"140",'cond'=>"东直门",'num'=>3000),
+									array('id'=>"141",'cond'=>"北京市人民法院",'num'=>3000),
+									array('id'=>"142",'cond'=>"东直门",'num'=>3000),
+									array('id'=>"143",'cond'=>"北京市人民法院",'num'=>3000),
+									array('id'=>"144",'cond'=>"北京市人民法院",'num'=>3000),
+									array('id'=>"145",'cond'=>"北京市人民法院",'num'=>3000),
+									array('id'=>"146",'cond'=>"东直门",'num'=>3000),
+									array('id'=>"147",'cond'=>"东直门",'num'=>3000),
+									array('id'=>"148",'cond'=>"北京市人民法院",'num'=>3000),
+									array('id'=>"149",'cond'=>"东直门",'num'=>3000),
+									array('id'=>"150",'cond'=>"北京市人民法院",'num'=>3000)
 								),
 							),
 							array(
-								'title'=>"陕西省",
+								'title'=>"青海省",
 								'child'=>array(
-									array('cond'=>"我是一号测试",'num'=>3000),
-									array('cond'=>"我是二号测试",'num'=>3000),
-									array('cond'=>"我是三号测试",'num'=>3000),
-									array('cond'=>"我是四号测试",'num'=>3000),
-									array('cond'=>"我是五号测试",'num'=>3000),
-									array('cond'=>"我是六号测试",'num'=>3000),
-									array('cond'=>"我是懒得写了",'num'=>3000)
+									array('id'=>"152",'cond'=>"我是一号测试",'num'=>3000),
+									array('id'=>"153",'cond'=>"我是二号测试",'num'=>3000),
+									array('id'=>"154",'cond'=>"我是三号测试",'num'=>3000),
+									array('id'=>"155",'cond'=>"我是四号测试",'num'=>3000),
+									array('id'=>"156",'cond'=>"我是五号测试",'num'=>3000),
+									array('id'=>"157",'cond'=>"我是六号测试",'num'=>3000),
+									array('id'=>"158",'cond'=>"我是懒得写了",'num'=>3000)
 								)
 							),
 							array(
-								'title'=>"陕西省",
+								'title'=>"宁夏省",
 								'child'=>array(
-									array('cond'=>"我是一号测试",'num'=>3000),
-									array('cond'=>"我是二号测试",'num'=>3000),
-									array('cond'=>"我是三号测试",'num'=>3000),
-									array('cond'=>"我是四号测试",'num'=>3000),
-									array('cond'=>"我是五号测试",'num'=>3000),
-									array('cond'=>"我是六号测试",'num'=>3000),
-									array('cond'=>"我是懒得写了",'num'=>3000)
+									array('id'=>"159",'cond'=>"我是一号测试",'num'=>3000),
+									array('id'=>"160",'cond'=>"我是二号测试",'num'=>3000),
+									array('id'=>"161",'cond'=>"我是三号测试",'num'=>3000),
+									array('id'=>"162",'cond'=>"我是四号测试",'num'=>3000),
+									array('id'=>"163",'cond'=>"我是五号测试",'num'=>3000),
+									array('id'=>"164",'cond'=>"我是六号测试",'num'=>3000),
+									array('id'=>"165",'cond'=>"我是懒得写了",'num'=>3000)
 								)
 							),
 							array(
-								'title'=>"陕西省",
+								'title'=>"广东省",
 								'child'=>array(
-									array('cond'=>"我是一号测试",'num'=>3000),
-									array('cond'=>"我是二号测试",'num'=>3000),
-									array('cond'=>"我是三号测试",'num'=>3000),
-									array('cond'=>"我是四号测试",'num'=>3000),
-									array('cond'=>"我是五号测试",'num'=>3000),
-									array('cond'=>"我是六号测试",'num'=>3000),
-									array('cond'=>"我是懒得写了",'num'=>3000)
+									array('id'=>"166",'cond'=>"我是一号测试",'num'=>3000),
+									array('id'=>"167",'cond'=>"我是二号测试",'num'=>3000),
+									array('id'=>"168",'cond'=>"我是三号测试",'num'=>3000),
+									array('id'=>"169",'cond'=>"我是四号测试",'num'=>3000),
+									array('id'=>"111",'cond'=>"我是五号测试",'num'=>3000),
+									array('id'=>"1111",'cond'=>"我是六号测试",'num'=>3000),
+									array('id'=>"11111",'cond'=>"我是懒得写了",'num'=>3000)
 								)
 							),
 							array(
-								'title'=>"陕西省",
+								'title'=>"湖南省",
 								'child'=>array(
-									array('cond'=>"我是一号测试",'num'=>3000),
-									array('cond'=>"我是二号测试",'num'=>3000),
-									array('cond'=>"我是三号测试",'num'=>3000),
-									array('cond'=>"我是四号测试",'num'=>3000),
-									array('cond'=>"我是五号测试",'num'=>3000),
-									array('cond'=>"我是六号测试",'num'=>3000),
-									array('cond'=>"我是懒得写了",'num'=>3000)
+									array('id'=>"22",'cond'=>"我是一号测试",'num'=>3000),
+									array('id'=>"222",'cond'=>"我是二号测试",'num'=>3000),
+									array('id'=>"2222",'cond'=>"我是三号测试",'num'=>3000),
+									array('id'=>"22222",'cond'=>"我是四号测试",'num'=>3000),
+									array('id'=>"222222",'cond'=>"我是五号测试",'num'=>3000),
+									array('id'=>"2222222",'cond'=>"我是六号测试",'num'=>3000),
+									array('id'=>"22222222",'cond'=>"我是懒得写了",'num'=>3000)
 								)
 							),
 							array(
-								'title'=>"陕西省",
+								'title'=>"湖北省",
 								'child'=>array(
-									array('cond'=>"我是一号测试",'num'=>3000),
-									array('cond'=>"我是二号测试",'num'=>3000),
-									array('cond'=>"我是三号测试",'num'=>3000),
-									array('cond'=>"我是四号测试",'num'=>3000),
-									array('cond'=>"我是五号测试",'num'=>3000),
-									array('cond'=>"我是六号测试",'num'=>3000),
-									array('cond'=>"我是懒得写了",'num'=>3000)
+									array('id'=>"3",'cond'=>"我是一号测试",'num'=>3000),
+									array('id'=>"33",'cond'=>"我是二号测试",'num'=>3000),
+									array('id'=>"333",'cond'=>"我是三号测试",'num'=>3000),
+									array('id'=>"3333",'cond'=>"我是四号测试",'num'=>3000),
+									array('id'=>"33333",'cond'=>"我是五号测试",'num'=>3000),
+									array('id'=>"333333",'cond'=>"我是六号测试",'num'=>3000),
+									array('id'=>"3333333",'cond'=>"我是懒得写了",'num'=>3000)
 								)
 							),
 							array(
-								'title'=>"陕西省",
+								'title'=>"山东省",
 								'child'=>array(
-									array('cond'=>"我是一号测试",'num'=>3000),
-									array('cond'=>"我是二号测试",'num'=>3000),
-									array('cond'=>"我是三号测试",'num'=>3000),
-									array('cond'=>"我是四号测试",'num'=>3000),
-									array('cond'=>"我是五号测试",'num'=>3000),
-									array('cond'=>"我是六号测试",'num'=>3000),
-									array('cond'=>"我是懒得写了",'num'=>3000)
+									array('id'=>"4",'cond'=>"我是一号测试",'num'=>3000),
+									array('id'=>"44",'cond'=>"我是二号测试",'num'=>3000),
+									array('id'=>"444",'cond'=>"我是三号测试",'num'=>3000),
+									array('id'=>"4444",'cond'=>"我是四号测试",'num'=>3000),
+									array('id'=>"44444",'cond'=>"我是五号测试",'num'=>3000),
+									array('id'=>"444444",'cond'=>"我是六号测试",'num'=>3000),
+									array('id'=>"4444444",'cond'=>"我是懒得写了",'num'=>3000)
 								)
 							),
 							array(
-								'title'=>"陕西省",
+								'title'=>"海南省",
 								'child'=>array(
-									array('cond'=>"我是一号测试",'num'=>3000),
-									array('cond'=>"我是二号测试",'num'=>3000),
-									array('cond'=>"我是三号测试",'num'=>3000),
-									array('cond'=>"我是四号测试",'num'=>3000),
-									array('cond'=>"我是五号测试",'num'=>3000),
-									array('cond'=>"我是六号测试",'num'=>3000),
-									array('cond'=>"我是懒得写了",'num'=>3000)
+									array('id'=>"5",'cond'=>"我是一号测试",'num'=>3000),
+									array('id'=>"55",'cond'=>"我是二号测试",'num'=>3000),
+									array('id'=>"555",'cond'=>"我是三号测试",'num'=>3000),
+									array('id'=>"5555",'cond'=>"我是四号测试",'num'=>3000),
+									array('id'=>"55555",'cond'=>"我是五号测试",'num'=>3000),
+									array('id'=>"555555",'cond'=>"我是六号测试",'num'=>3000),
+									array('id'=>"5555555",'cond'=>"我是懒得写了",'num'=>3000)
 								)
 							),
 							array(
-								'title'=>"陕西省",
+								'title'=>"江西省",
 								'child'=>array(
-									array('cond'=>"我是一号测试",'num'=>3000),
-									array('cond'=>"我是二号测试",'num'=>3000),
-									array('cond'=>"我是三号测试",'num'=>3000),
-									array('cond'=>"我是四号测试",'num'=>3000),
-									array('cond'=>"我是五号测试",'num'=>3000),
-									array('cond'=>"我是六号测试",'num'=>3000),
-									array('cond'=>"我是懒得写了",'num'=>3000)
+									array('id'=>"6666666",'cond'=>"我是一号测试",'num'=>3000),
+									array('id'=>"666666",'cond'=>"我是二号测试",'num'=>3000),
+									array('id'=>"66666",'cond'=>"我是三号测试",'num'=>3000),
+									array('id'=>"6666",'cond'=>"我是四号测试",'num'=>3000),
+									array('id'=>"666",'cond'=>"我是五号测试",'num'=>3000),
+									array('id'=>"66",'cond'=>"我是六号测试",'num'=>3000),
+									array('id'=>"6",'cond'=>"我是懒得写了",'num'=>3000)
 								)
 							),
 							array(
-								'title'=>"陕西省",
+								'title'=>"广西省",
 								'child'=>array(
-									array('cond'=>"我是一号测试",'num'=>3000),
-									array('cond'=>"我是二号测试",'num'=>3000),
-									array('cond'=>"我是三号测试",'num'=>3000),
-									array('cond'=>"我是四号测试",'num'=>3000),
-									array('cond'=>"我是五号测试",'num'=>3000),
-									array('cond'=>"我是六号测试",'num'=>3000),
-									array('cond'=>"我是懒得写了",'num'=>3000)
+									array('id'=>"7",'cond'=>"我是一号测试",'num'=>3000),
+									array('id'=>"77",'cond'=>"我是二号测试",'num'=>3000),
+									array('id'=>"777",'cond'=>"我是三号测试",'num'=>3000),
+									array('id'=>"7777",'cond'=>"我是四号测试",'num'=>3000),
+									array('id'=>"77777",'cond'=>"我是五号测试",'num'=>3000),
+									array('id'=>"777777",'cond'=>"我是六号测试",'num'=>3000),
+									array('id'=>"7777777",'cond'=>"我是懒得写了",'num'=>3000)
 								)
 							),
 							array(
-								'title'=>"陕西省",
+								'title'=>"西藏",
 								'child'=>array(
-									array('cond'=>"我是一号测试",'num'=>3000),
-									array('cond'=>"我是二号测试",'num'=>3000),
-									array('cond'=>"我是三号测试",'num'=>3000),
-									array('cond'=>"我是四号测试",'num'=>3000),
-									array('cond'=>"我是五号测试",'num'=>3000),
-									array('cond'=>"我是六号测试",'num'=>3000),
-									array('cond'=>"我是懒得写了",'num'=>3000)
+									array('id'=>"8",'cond'=>"我是一号测试",'num'=>3000),
+									array('id'=>"88",'cond'=>"我是二号测试",'num'=>3000),
+									array('id'=>"888",'cond'=>"我是三号测试",'num'=>3000),
+									array('id'=>"8888",'cond'=>"我是四号测试",'num'=>3000),
+									array('id'=>"88888",'cond'=>"我是五号测试",'num'=>3000),
+									array('id'=>"888888",'cond'=>"我是六号测试",'num'=>3000),
+									array('id'=>"8888888",'cond'=>"我是懒得写了",'num'=>3000)
 								)
 							),
 							array(
-								'title'=>"陕西省",
+								'title'=>"新疆",
 								'child'=>array(
-									array('cond'=>"我是一号测试",'num'=>3000),
-									array('cond'=>"我是二号测试",'num'=>3000),
-									array('cond'=>"我是三号测试",'num'=>3000),
-									array('cond'=>"我是四号测试",'num'=>3000),
-									array('cond'=>"我是五号测试",'num'=>3000),
-									array('cond'=>"我是六号测试",'num'=>3000),
-									array('cond'=>"我是懒得写了",'num'=>3000)
+									array('id'=>"9",'cond'=>"我是一号测试",'num'=>3000),
+									array('id'=>"99",'cond'=>"我是二号测试",'num'=>3000),
+									array('id'=>"999",'cond'=>"我是三号测试",'num'=>3000),
+									array('id'=>"9999",'cond'=>"我是四号测试",'num'=>3000),
+									array('id'=>"99999",'cond'=>"我是五号测试",'num'=>3000),
+									array('id'=>"999999",'cond'=>"我是六号测试",'num'=>3000),
+									array('id'=>"9999999",'cond'=>"我是懒得写了",'num'=>3000)
 								)
 							)
 						)
 					),
 					array(
-						'key'=>"ajxz",
-						'type'=>"select",
-						'cn'=>"案件性质",
-						'child'=>array(
-							array('cond'=>"判决",'num'=>3000),
-							array('cond'=>"裁定",'num'=>3000),
-							array('cond'=>"其他",'num'=>3000)
+						'key'=>"judgement",//条件的key 就是你当初网站上的那个查询的get里面的key
+						'type'=>"select",//这个案由和法院是float其他的是select 因为案由和法院条件是谈层弹出的，其他的是收缩表现的。
+						'cn'=>"案件性质",//条件中文名称
+						'child'=>array(//这个和案由的一样
+							array('id'=>"144",'cond'=>"判决",'num'=>3000),//id就是查询的时候给后台的值 cond是中文敏刚才 num是有多少条数据
+							array('id'=>"155",'cond'=>"裁定",'num'=>3000),
+							array('id'=>"166",'cond'=>"其他",'num'=>3000)
 						)
 					),
 					array(
-						'key'=>"ajlx",
+						'key'=>"case",
 						'type'=>"select",
 						'cn'=>"案件类型",
 						'child'=>array(
-							array('cond'=>"民事",'num'=>3000),
-							array('cond'=>"刑事",'num'=>3000),
-							array('cond'=>"行政",'num'=>3000),
-							array('cond'=>"执行",'num'=>3000),
-							array('cond'=>"其他",'num'=>3000)
+							array('id'=>"456",'cond'=>"民事",'num'=>3000),
+							array('id'=>"345",'cond'=>"刑事",'num'=>3000),
+							array('id'=>"678",'cond'=>"行政",'num'=>3000),
+							array('id'=>"348",'cond'=>"执行",'num'=>3000),
+							array('id'=>"1201",'cond'=>"其他",'num'=>3000)
 						)
 					),
 					array(
-						'key'=>"slcx",
+						'key'=>"round",
 						'type'=>"select",
 						'cn'=>"审理程序",
 						'child'=>array(
-							array('cond'=>"一审",'num'=>3000),
-							array('cond'=>"二审",'num'=>3000),
-							array('cond'=>"再审",'num'=>3000),
-							array('cond'=>"其他",'num'=>3000)
+							array('id'=>"2234",'cond'=>"一审",'num'=>3000),
+							array('id'=>"3234",'cond'=>"二审",'num'=>3000),
+							array('id'=>"4234",'cond'=>"再审",'num'=>3000),
+							array('id'=>"5234",'cond'=>"其他",'num'=>3000)
 						)
 					),
 					array(
-						'key'=>"spnf",
+						'key'=>"year",
 						'type'=>"select",
 						'cn'=>"审判年份",
 						'child'=>array(
-							array('cond'=>"2015",'num'=>3000),
-							array('cond'=>"2014",'num'=>3000),
-							array('cond'=>"2013",'num'=>3000),
-							array('cond'=>"执行",'num'=>3000),
-							array('cond'=>"2012",'num'=>3000)
+							array('id'=>"2015",'cond'=>"2015",'num'=>3000),
+							array('id'=>"2014",'cond'=>"2014",'num'=>3000),
+							array('id'=>"2013",'cond'=>"2013",'num'=>3000),
+							array('id'=>"2012",'cond'=>"2012",'num'=>3000),
+							array('id'=>"2011",'cond'=>"2011",'num'=>1)
 						)
 					)
 				),
-			'count' => 492558,
+			'count' => 492558,//查询结果总数
 			'searchList' => array(
-				'page' => $_POST['page'],
-				'count' => 20,
-				'list' => array(
-					array("id"=>"3330",'title'=>"我是测试数据","content"=>"我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。","label"=>array("民事","一审","判决")),
+				'page' => $_POST['page'],//这个是前端给传的当前页数，第一页是1，前端传什么返回什么，用于前端页数验证。
+				'count' => 15,//这个是下方list里面有多少条数据，是每页查询条数，不是所有的总数，和上级的count是不一样的，前端会给后端传一个每页最大的条数（searchNum），每页最多返回searchNum条数据，也就是count的值不会大于searchNum
+				'list' => array(//这个是查询的结果，每天数据在页面上展示一跳
+					array("id"=>"3330",'title'=>"我是测试数据","content"=>"我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。我就测试一下，我不说话，我就看看。","label"=>array("民事","一审","判决")),//id 是跳转到详情页面用到的id title是页面展示的title content是页面展示的部分内容 label是页面上展示的标签
 					array("id"=>"3330",'title'=>"谈某甲与黄某离婚纠纷二审民事判决书","content"=>"变卖夫妻共同财产，根据婚姻法的规定，夫妻一方擅自处分共同共有的房屋造成另一方损失，离婚时另一方请求赔偿损失的，人民法院应予支持。在婚姻存续期间，夫妻的共同财产有如下物业：1、江门市蓬江区某甲花园某甲路88号之三702；2、粤J×××××小汽车","label"=>array("民事","一审","判决")),
 					array("id"=>"3330",'title'=>"谈某甲与黄某离婚纠纷二审民事判决书","content"=>"变卖夫妻共同财产，根据婚姻法的规定，夫妻一方擅自处分共同共有的房屋造成另一方损失，离婚时另一方请求赔偿损失的，人民法院应予支持。在婚姻存续期间，夫妻的共同财产有如下物业：1、江门市蓬江区某甲花园某甲路88号之三702；2、粤J×××××小汽车","label"=>array("民事","一审","判决")),
 					array("id"=>"3330",'title'=>"谈某甲与黄某离婚纠纷二审民事判决书","content"=>"变卖夫妻共同财产，根据婚姻法的规定，夫妻一方擅自处分共同共有的房屋造成另一方损失，离婚时另一方请求赔偿损失的，人民法院应予支持。在婚姻存续期间，夫妻的共同财产有如下物业：1、江门市蓬江区某甲花园某甲路88号之三702；2、粤J×××××小汽车","label"=>array("民事","一审","判决")),
