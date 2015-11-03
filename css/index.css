@@ -9,10 +9,12 @@ html{zoom:expression(function(ele){
 body{height: 100%; min-width: 1000px;font:14px/1.5 Arial,sans-serif,'宋体';color:#333; background: #fff;}
 h1,h2,h3,h4{font:14px "Microsoft YaHei",Arial,Verdana;}
 a{color: #333;}
-a:hover{color:#f60;}
+a:hover{color:#fd8d42;}
 .fontblue{color: #317ef3;}
-.fontyellow{ color: #f60;}
+.fontyellow{ color: #fd8d42;}
 .fontgray{ color: #999;}
+.font12{font-size: 12px;}
+.mb10{margin-bottom: 10px;}
 .center{ text-align: center;}
 
 .icon{background: url(../images/icon.png) no-repeat 0 0;}
@@ -20,7 +22,7 @@ a:hover{color:#f60;}
 .wrapper{ min-height: 100%;}
 .header{ width: 100%;}
 .header a{ color: #fff;}
-.header a:hover{ color: #f60;}
+.header a:hover{ color: #fd8d42;}
 .header var{ margin: 0 10px;}
 .footer{ height: 80px; background: #1a6389;}
 .login-top{height: 40px; padding-right: 30px; text-align: right; line-height: 40px; font-size: 12px;}
@@ -57,11 +59,12 @@ a:hover{color:#f60;}
 .list-wrap .arrow{display: inline-block;position: absolute;top:10px; right: 10px; width: 10px;height:10px; background: url(../images/arrow.png) no-repeat 0 0;}
 .list-wrap .trans{ -webkit-transform:rotate(180deg); transform:rotate(180deg); -webkit-transform-origin:50% 50%; transform-origin:50% 50%;}
 
-.list-wrap .txt{ display: inline-block; max-width: 120px; height: 24px; line-height: 24px; overflow: hidden; float: left;}
+.list-wrap .txt{ display: inline-block; max-width: 100px; height: 24px; line-height: 24px; overflow: hidden; float: left;}
 .list-wrap .num{ display: inline-block; float: left;}
-.list-wrap li{ padding: 0 10px;cursor:pointer;height: 28px; line-height: 28px;}
+.list-wrap li{position: relative; padding:0 15px 0 10px; cursor:pointer;height: 28px; line-height: 28px;}
 .list-wrap li:hover{ background: #f0f0f0;}
 .list-wrap li.on{ background: #38f; color: #fff;}
+.list-wrap li .close{ position: absolute; right:8px;}
 .list-wrap .lists{ margin-top: 10px;}
 .list-wrap .other .tit{ display: block; padding: 0 10px; height: 28px; line-height: 28px;}
 .list-wrap .second-list li{ padding-left: 20px;}
@@ -70,23 +73,24 @@ a:hover{color:#f60;}
 .main{ width: 960px;}
 .result{ padding: 15px 10px 10px;}
 .result .keywords{ width: 1000px;}
-.result .save a{margin-left: 10px;font-size: 12px; color: #666;}
-.result .save a:hover{ color: #f60;}
-.result .icon{position: relative; top: 3px; display: inline-block;width: 15px;height: 15px;}
-.result .save-icon{background-position: 0 -55px;}
-.result .load-icon{background-position: 0 -70px;}
+.save a{margin-left: 10px;font-size: 12px; color: #666;}
+.save a:hover{ color: #fd8d42;}
+.save .icon{position: relative; top: 3px; display: inline-block;width: 15px;height: 15px;}
+.save-icon{background-position: 0 -55px;}
+.load-icon{background-position: 0 -70px;}
 .keyword{ display: inline-block;margin:0 8px 8px 0; background: #38f; color: #fff; padding: 2px 5px; font-size: 12px;}
-.keyword:hover{ background:#f60; color: #fff; }
+.keyword:hover{ background:#fd8d42; color: #fff; }
 .keyword .close{ margin-left:8px; font-size: 12px;}
 .info-wrap{ margin-bottom: 40px;}
 .item-info{position: relative; padding:10px; border-top: 1px solid #e8e8e8;}
 .item-info:hover{ background: #f8f8f8}
 .item-info h3{ font-size:18px; margin-bottom:10px;}
 .item-info .text{ font-size: 12px; color: #666; line-height:1.8; text-indent: 2em;}
-.item-info .tag{display: inline-block; margin-left: 5px; padding:3px 5px; border: 1px solid #f60; font-size: 12px; border-radius: 3px; background: #fdeee4; color: #f60;}
+.item-info .tag{display: inline-block; margin-left: 5px; padding:3px 5px; border: 1px solid #89bafe; font-size: 12px; border-radius: 3px; background: #e6f0ff; color: #3388ff;}
+.item-info .zhushi em{margin-right: 10px;}
 
 .pages a{ display: inline-block;margin-right: 10px; padding: 5px 10px;font-size: 12px; border: 1px solid #e8e8e8; color: #666;}
-.pages a:hover{ border-color: #f60;}
+.pages a:hover{ border-color: #fd8d42;}
 .gotop{position: fixed; bottom:100px; right: 10px;width: 48px; height: 55px; }
 .gotop .gotop-icon{display: block; width: 40px; height: 40px; background: #d8d8d8;}
 .gotop .gotop-icon:hover{ background: #38f;}
