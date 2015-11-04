@@ -91,7 +91,7 @@ a:hover{color:#fd8d42;}
 
 .pages a{ display: inline-block;margin-right: 10px; padding: 5px 10px;font-size: 12px; border: 1px solid #e8e8e8; color: #666;}
 .pages a:hover{ border-color: #fd8d42;}
-.gotop{position: fixed; bottom:100px; right: 10px;width: 48px; height: 55px; }
+.gotop{position: fixed; bottom:10px; right: 10px;width: 48px; height: 55px; }
 .gotop .gotop-icon{display: block; width: 40px; height: 40px; background: #d8d8d8;}
 .gotop .gotop-icon:hover{ background: #38f;}
 .gotop .gotop-icon em{display: block; width: 40px; height: 40px;background-position: 0 0;}
