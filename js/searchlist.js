@@ -9,15 +9,18 @@ $(function(){
 	this.checkCreateCondition = true;
 	this.selectConditionObj = "";
 	this.selectConditionTime = new Date().getTime();
+	this.maxPageDomNum = 10;
 
 	this.createDomObj = function(){
 		this.conditionSelectObj = $("#conditionSelectObj");
 		this.searchNumObj = $("#searchNumObj");
 		this.conditionObj = $("#conditionObj");
 		this.searchListObj = $("#searchListObj");
-		this.collectionObj = $("#collectionObj");
+		this.collectObj = $("#collectObj");
 		this.ajaxScrollTipsObj = $("#ajaxScrollTipsObj");
 		this.nodataObj = $("#nodataObj");
+		this.pageObj = $("#pageObj");
+		this.downObj = $("#downObj");
 	}
 
 	this.createSearchData = function(){
@@ -92,9 +95,10 @@ $(function(){
 					self.createSearchCondHtml(data['info']['cond']);
 					self.checkCreateCondition = false;
 				}else{
-					self.resetSearchCondHtml(data['info']['cond']);
+					//self.resetSearchCondHtml(data['info']['cond']);
 				}
 				if(data['info']['searchList']['page'] == 1)self.createSeatchCountHtml(data['info']['count']);
+				self.createPageHtml(Number(data['info']['searchList']['page']),Number(data['info']['count']),self.listMaxNum);
 				if(data['info']['searchList']['page'] != self.searchPage)return false;
 				self.createSearchListHtml(data['info']['searchList']['list']);
 				if(data['info']['searchList']['count'] < self.listMaxNum){
@@ -108,79 +112,95 @@ $(function(){
 		})
 	}
 
-	this.createFloatCondHtml = function(data,i){
-		var html = '<div class="item" data-t="float" data-k="'+data['key']+'"'+(i==0? ' style="border-top-color:#f2f4f6"' : '')+'><h3><a href="javascript:void(0)">'+data['cn']+'</a></h3><i class="arrow more">></i><span'+(i==0 ? ' style="height:42px;top:-1px;"' : '')+' class="borderout"></span></div>';
-		return html;
-	}
-
-	this.createFloatCondHastitleHtml = function(key,data){
-		var html = ['<div class="column" data-title="'+data['title']+'"><dl><dt><strong>'+data['title']+'</strong></dt>'];
+	this.createFloatCondHtml = function(data){
+		var html = ['<div class="item clearfix" data-t="float" data-k="'+data['key']+'"><h3><a href="javascript:void(0);">'+data['cn']+'<i class="arrow"></i></a></h3><div class="lists-other clearfix">'];
 
 		for(var i=0,ilen=data['child'].length;i<ilen;i++){
-			html.push('<dd><label><input type="checkbox" value="'+key+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'" data-t="cond" class="ipt" /><span class="txt">'+data['child'][i]['cond']+'</span><em class="num">('+data['child'][i]['num']+')</em></label></dd>');
+			html.push('<div class="other"><a href="javascript:void(0);" data-t="cond" data-v="'+data['key']+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'" class="tit'+(data['child'][i]['child'] && data['child'][i]['child'].length ? ' onObj' : '')+'"><em>'+(data['child'][i]['child'] && data['child'][i]['child'].length ? '-' : '+')+'</em> '+data['child'][i]['cond']+'<em>('+data['child'][i]['num']+')</em></a>');
+			if(!(data['child'][i]['child'] && data['child'][i]['child'].length)){
+				html.push('</div>');
+				continue;
+			}
+			html.push('<ul class="second-list">')
+			for(var k=0,klen=data['child'][i]['child'].length;k<klen;k++){
+				html.push('<li data-v="'+data['key']+"_"+data['child'][i]['child'][k]['id']+"_"+data['child'][i]['child'][k]['cond']+'" data-t="cond">'+data['child'][i]['child'][k]['cond']+'<em>('+data['child'][i]['child'][k]['num']+')</em></label></li>');
+			}
+			html.push('</ul></div>');
 		}
 
-		html.push('</dd></dl></div>');
+		html.push('</div></div>');
 
 		return html.join("");
 	}
 
-	this.createFloatCondNoHastitleHtml = function(key,data){
-		return '<div class="column"><label><input type="checkbox" class="ipt" value="'+key+"_"+data['id']+"_"+data['cond']+'" data-t="cond"/><span class="txt">'+data['cond']+'</span><em class="num">('+data['num']+')</em></label></div>';
-	}
+	// this.createFloatCondHastitleHtml = function(key,data){
+	// 	var html = ['<div class="column" data-title="'+data['title']+'"><dl><dt><strong>'+data['title']+'</strong></dt>'];
 
-	this.createFloatCondLayerHtml = function(data){
-		var html = ['<div class="down-layer" id="'+data['key']+'LayerObj" style="display:none;">'];
-		for(var i=0,ilen=data['child'].length;i<ilen;i++){
-			if(data['child'][i]['title']){
-				html.push(this.createFloatCondHastitleHtml(data['key'],data['child'][i]));
-			}else{
-				html.push(this.createFloatCondNoHastitleHtml(data['key'],data['child'][i]));
-			}
-		}
-		this.conditionObj.after(html.join(""));
-	}
+	// 	for(var i=0,ilen=data['child'].length;i<ilen;i++){
+	// 		html.push('<dd><label><input type="checkbox" value="'+key+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'" data-t="cond" class="ipt" /><span class="txt">'+data['child'][i]['cond']+'</span><em class="num">('+data['child'][i]['num']+')</em></label></dd>');
+	// 	}
 
-	this.createFloatCondMouseEvent = function(data){
-		if(!data || !data.length)return false;
-		var self = this;
-		var conditionDivObj = this.conditionObj.children("div");
-		for(var i=0,ilen=conditionDivObj.length;i<ilen;i++){
-			var thisK = conditionDivObj.eq(i).attr("data-k");
-			if($.inArray(thisK,data)>-1){
-				new mouseShowDiv(thisK+"LayerObj",conditionDivObj.eq(i)[0],50,200,function(){
+	// 	html.push('</dd></dl></div>');
 
-					for(var d=0,dlen=conditionDivObj.length;d<dlen;d++){
-						if(!conditionDivObj.eq(d)[0].className.indexOf('item_on')<0)continue;
-						conditionDivObj.eq(d).removeClass('item-on');
-					}
-					$(this).addClass("item-on");
-				},function(){
-					$(this).removeClass("item-on");
-				});
-			}
-		}
-	}
+	// 	return html.join("");
+	// }
 
-	this.setFloatCondLayerHeight = function(data){
-		if(!data || !data.length)return false;
-		var titleHeight = this.conditionObj.height();
-		for(var i=0,ilen=data.length;i<ilen;i++){
-			var thisObj = $("#"+data[i]+"LayerObj");
-			thisHeight = thisObj.height();
-			if(thisHeight < titleHeight){
-				thisObj.css({
-					"height" : titleHeight-20,
-					"min-height" : titleHeight-20
-				});
-			}
-		}
-	}
+	// this.createFloatCondNoHastitleHtml = function(key,data){
+	// 	return '<div class="column"><label><input type="checkbox" class="ipt" value="'+key+"_"+data['id']+"_"+data['cond']+'" data-t="cond"/><span class="txt">'+data['cond']+'</span><em class="num">('+data['num']+')</em></label></div>';
+	// }
+
+	// this.createFloatCondLayerHtml = function(data){
+	// 	var html = ['<div class="down-layer" id="'+data['key']+'LayerObj" style="display:none;">'];
+	// 	for(var i=0,ilen=data['child'].length;i<ilen;i++){
+	// 		if(data['child'][i]['title']){
+	// 			html.push(this.createFloatCondHastitleHtml(data['key'],data['child'][i]));
+	// 		}else{
+	// 			html.push(this.createFloatCondNoHastitleHtml(data['key'],data['child'][i]));
+	// 		}
+	// 	}
+	// 	this.conditionObj.after(html.join(""));
+	// }
+
+	// this.createFloatCondMouseEvent = function(data){
+	// 	if(!data || !data.length)return false;
+	// 	var self = this;
+	// 	var conditionDivObj = this.conditionObj.children("div");
+	// 	for(var i=0,ilen=conditionDivObj.length;i<ilen;i++){
+	// 		var thisK = conditionDivObj.eq(i).attr("data-k");
+	// 		if($.inArray(thisK,data)>-1){
+	// 			new mouseShowDiv(thisK+"LayerObj",conditionDivObj.eq(i)[0],50,200,function(){
+
+	// 				for(var d=0,dlen=conditionDivObj.length;d<dlen;d++){
+	// 					if(!conditionDivObj.eq(d)[0].className.indexOf('item_on')<0)continue;
+	// 					conditionDivObj.eq(d).removeClass('item-on');
+	// 				}
+	// 				$(this).addClass("item-on");
+	// 			},function(){
+	// 				$(this).removeClass("item-on");
+	// 			});
+	// 		}
+	// 	}
+	// }
+
+	// this.setFloatCondLayerHeight = function(data){
+	// 	if(!data || !data.length)return false;
+	// 	var titleHeight = this.conditionObj.height();
+	// 	for(var i=0,ilen=data.length;i<ilen;i++){
+	// 		var thisObj = $("#"+data[i]+"LayerObj");
+	// 		thisHeight = thisObj.height();
+	// 		if(thisHeight < titleHeight){
+	// 			thisObj.css({
+	// 				"height" : titleHeight-20,
+	// 				"min-height" : titleHeight-20
+	// 			});
+	// 		}
+	// 	}
+	// }
 
 	this.createSelectCondHtml = function(data){
-		var html = ['<div class="item"  data-t="float" data-k="'+data['key']+'"><h3><a href="javascript:void(0);"><i class="more">-</i> '+data['cn']+'</a></h3><ul class="second-list">'];
+		var html = ['<div class="item clearfix" data-t="float" data-k="'+data['key']+'"><h3><a href="javascript:void(0);">'+data['cn']+'<i class="arrow"></i></a></h3><ul class="lists">'];
 		for(var i=0,ilen=data['child'].length;i<ilen;i++){
-			html.push('<li><label><input value="'+data['key']+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'" data-t="cond" type="checkbox"/> '+data['child'][i]['cond']+'<em>('+data['child'][i]['num']+')</em></label></li>');
+			html.push('<li data-v="'+data['key']+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'" data-t="cond">'+data['child'][i]['cond']+'<em>('+data['child'][i]['num']+')</em></label></li>');
 		}
 
 		html.push('</ul></div>');
@@ -190,17 +210,14 @@ $(function(){
 
 	this.createSearchCondHtml = function(data){
 		var html = new Array();
-		var floatKey = new Array();
 		for(var i=0,ilen=data.length;i<ilen;i++){
 			switch (data[i]['type']){
-				case "float" : floatKey.push(data[i]['key']);html.push(this.createFloatCondHtml(data[i],i));this.createFloatCondLayerHtml(data[i]);break;
+				case "float" :html.push(this.createFloatCondHtml(data[i]));break;
 				case "select" : html.push(this.createSelectCondHtml(data[i]));break;
 			}
 		}
 
 		this.conditionObj.html(html.join(""));
-		this.setFloatCondLayerHeight(floatKey);
-		this.createFloatCondMouseEvent(floatKey);
 	}
 
 	this.resetFloatCondHastitleHtml = function(key,data){
@@ -329,30 +346,52 @@ $(function(){
 
 	this.createSearchListLabelHtml = function(data){
 		if(!(data && data.length))return "";
-		var html = ['<div class="tags-wrap">'];
+		var html = ['<span class="fontyellow">'];
 		for(var i=0,ilen=data.length;i<ilen;i++){
-			html.push('<span class="tags">'+data[i]+'</span>');
+			html.push('<em>'+data[i]+'</em>');
 		}
 
-		html.push("</div>");
+		html.push("</span>");
 		return html.join("");
 	}
 
 	this.createSearchListHtml = function(data){
 		var html = new Array();
 		for(var i=0,ilen=data.length;i<ilen;i++){
-			html.push('<div class="item-info'+(i%2 ? " hover" : "")+'">'+this.createSearchListLabelHtml(data[i]['label'])+'<h3><a href="javascript:void(0);" data-t="detail" data-i="'+data[i]['id']+'" class="fontblue">'+data[i]['title']+'</a></h3><p class="text">'+data[i]['content']+'...</p></div>');
+			html.push('<div class="item-info"><h3><a href="javascript:void(0);" data-t="detail" data-i="'+data[i]['id']+'" class="fontblue">'+data[i]['title']+'</a>'+(data[i]['type'] ? '<span class="tag">'+data[i]['type']+'</span>' : '')+'</h3><p class="zhushi font12 mb10">'+this.createSearchListLabelHtml(data[i]['label'])+'<span class="fontyellow"><em>'+data[i]['add']+'</em><span class="fontgray"><em>'+data[i]['num']+'</em></span><span class="fontgray"><em>'+data[i]['date']+'</em></span></p><p class="text mb10">'+data[i]['content']+'</p><div class="clearfix font12"><p class="zhushi fl">'+(data[i]['ctype'] ? '<span class="fontgray"><em>'+data[i]['ctype']+'</em></span>' : '')+(data[i]['presname'] ? '<span class="fontgray"><em>审判长：'+data[i]['presname']+'</em></span>' : '')+'</p><p class="save fr"><a href="javascript:void(0);" data-t="collectOne" data-i="'+data[i]['id']+'"><em class="save-icon icon"></em> 收藏</a><a href="javascript:void(0);" data-t="downOne" data-i="'+data[i]['id']+'"><em class="load-icon icon"></em> 下载</a></p></div></div>');
 		}
 
-		this.searchListObj.append(html);
+		this.searchListObj.html(html);
 	}
 
-	this.collecCondition = function(){
+	this.createPageHtml = function(n,a,m){
+		var allPageNum = Math.ceil(a/m);
+		var html = ['<a href="javascript:void(0);"'+(n==1 ? ' style="display:none"' : '')+' data-t="page" data-v="prev">上一页</a>'];
+
+		if(allPageNum < this.maxPageDomNum ){
+			var startPage = 1;
+		}else{
+			var ljval = Math.floor(this.maxPageDomNum/2)+1
+			var startPage = n>ljval ? n-ljval : 1;
+
+			startPage = allPageNum-n > this.maxPageDomNum - ljval ? startPage : allPageNum-this.maxPageDomNum+1;
+		}
+		var endPage = allPageNum > this.maxPageDomNum ? this.maxPageDomNum : allPageNum;
+		for(var i=0,page=startPage;i<endPage;i++,page++){
+			html.push('<a href="javascript:void(0);" class="'+(page==n ? "on" : "")+'" data-t="page" data-v="'+page+'">'+page+'</a>');
+		}
+		html.push('<a href="javascript:void(0);" data-t="page"'+(n==allPageNum ? ' style="display:none"' : '')+' data-v="next">下一页</a>');
+
+		this.pageObj.attr("data-a",allPageNum);
+		this.pageObj.html(html.join(""));
+	}
+
+	this.collectCondition = function(){
 		if(this.checkCollecAjax)return false;
 		var self = this;
 		this.checkCollecAjax = true;
 		$.ajax({
-			url : "/xiaoqiang/php/collection.php",
+			url : "/xiaoqiang/php/collectcondition.php",
 			data : "type="+this.searchData['type'].join(",")+"&keyword="+this.searchData['keyword'].join(","),
 			type : "post",
 			dataType : "json",
@@ -368,16 +407,64 @@ $(function(){
 	}
 
 	this.selectCondition = function(obj){
-		var thisV = obj.value;
-		if(obj.checked){
-			this.searchData['keyword'].push(thisV);
+		var thisV = obj.attr("data-v");
+		var delVal = "";
+		if(obj.hasClass('on')){
+			obj.removeClass('on');
+			delVal = thisV;
 		}else{
-			var temData = new Array();
-			for(var i=0,ilen=this.searchData['keyword'].length;i<ilen;i++){
-				if(this.searchData['keyword'][i] == thisV)continue;
-				temData.push(this.searchData['keyword'][i]);
-			}
-			this.searchData['keyword'] = temData;
+			this.searchData['keyword'].push(thisV);
+			obj.addClass('on');
+			var oldSelectObj = obj.siblings('li.on');
+			oldSelectObj.removeClass('on');
+			delVal = oldSelectObj.attr("data-v");
+		}
+
+		var temData = new Array();
+		for(var i=0,ilen=this.searchData['keyword'].length;i<ilen;i++){
+			if(this.searchData['keyword'][i] == delVal)continue;
+			temData.push(this.searchData['keyword'][i]);
+		}
+		this.searchData['keyword'] = temData;
+
+		this.clearSearchRequestData();
+		this.createCondSelectHtml();
+		var self = this;
+		
+		var nowTime = new Date().getTime();
+		if(nowTime - this.selectConditionTime < 500){
+			if(this.selectConditionObj)clearTimeout(this.selectConditionObj);
+		}
+		this.selectConditionTime = nowTime;
+		this.ajaxScrollTipsObj.children('a').html("正在加载中...");
+		this.ajaxScrollTipsObj.show();
+		setTimeout(function(){
+			self.getSearchListData();
+		},500);
+	}
+
+	this.selectTitleCondition = function(obj){
+		var thisV = obj.attr("data-v");
+		var thisVArr = thisV.split("_");
+		var temData = new Array();
+		for(var i=0,ilen=this.searchData['keyword'].length;i<ilen;i++){
+			var thisDataArr = this.searchData['keyword'][i].split("_");
+			if(thisDataArr.length ==3 && thisDataArr[0]== thisVArr[0])continue;
+			temData.push(this.searchData['keyword'][i]);
+		}
+
+		this.searchData['keyword'] = temData;
+		var ulObj = obj.next();
+		if(obj.hasClass('onObj')){
+			obj.removeClass('onObj');
+			obj.find("em:eq(0)").html("+");
+			if(ulObj.length)ulObj.hide();
+			if(ulObj.length)ulObj.children('li.on').removeClass('on');
+		}else{
+			this.searchData['keyword'].push(thisV);
+			obj.addClass('onObj');
+			obj.find("em:eq(0)").html("-");
+			if(ulObj.length)ulObj.show();
 		}
 
 		this.clearSearchRequestData();
@@ -444,38 +531,89 @@ $(function(){
 		this.searchListObj.html("");
 	}
 
+	this.collectList = function(idArr){
+		if(this.checkCollecAjax)return false;
+		var self = this;
+		this.checkCollecAjax = true;
+		$.ajax({
+			url : "/xiaoqiang/php/collect.php",
+			data : "id="+idArr.join(","),
+			type : "post",
+			dataType : "json",
+			success : function(data){
+				self.checkCollecAjax = false;
+				if(data.code !== 0){
+					alert(data.msg);
+				}else{
+					alert("收藏成功");
+				}
+			}
+		});
+	}
+
+	this.hrefDetail = function(thisId){
+		window.location.href = "/xiaoqiang/detail.html?case_id="+thisId+"&keyword="+this.searchData['keyword'].join(",");
+	}
+
+	this.collectOne = function(thisId){
+		var idArr = [thisId];
+		this.collectList(idArr);
+	}	
+
+	this.downOne = function(thisId){
+		alert("这个是下载跳转，给我链接");
+	}
+
+	this.downList = function(){
+		alert("这个是批量下载跳转，给我链接");
+	}
+
 	this.createEvent = function(){
 		var self = this;
 		this.searchListObj.delegate("a","click",function(){
 			var thisT = $(this).attr("data-t");
-			if(thisT!="detail")return false;
+			if(!thisT)return true;
 			var thisId = $(this).attr("data-i");
-			window.location.href = "/xiaoqiang/detail.html?case_id="+thisId+"&keyword="+self.searchData['keyword'];
+			switch(thisT){
+				case "detail" : self.hrefDetail(thisId);return true;
+				case "collectOne" : self.collectOne(thisId);return true;
+				case "downOne" : self.downOne(thisId);return true;
+			}
 		});
 
-		this.collectionObj.click(function(){
-			self.collecCondition();
+		this.pageObj.delegate("a","click",function(){
+			var thisT = $(this).attr("data-t");
+			if(thisT!="page")return true;
+			var thisV = $(this).attr("data-v");
+			self.searchPage = thisV == "prev" ? (self.searchPage-1) : (thisV == "next" ? (self.searchPage+1) : Number(thisV));
+			self.getSearchListData();
 		});
 
-		this.conditionObj.parent().delegate("input","click",function(){
-			self.selectCondition(this);
+		this.collectObj.click(function(){
+			self.collectCondition();
+		});
+
+		this.downObj.click(function(){
+			self.downList();
+		});
+
+		this.conditionObj.delegate("li","click",function(){
+			var thisT = $(this).attr("data-t");
+			switch(thisT){
+				case "cond" : self.selectCondition($(this));return true;
+			}
+		});
+
+		this.conditionObj.delegate("a","click",function(){
+			var thisT = $(this).attr("data-t");
+			switch(thisT){
+				case "cond" : self.selectTitleCondition($(this));return true;
+			}
 		});
 
 		this.conditionSelectObj.delegate("em","click",function(){
 			self.deleteCondition($(this));
 		});
-
-		window.onscroll = function(){
-			if(self.checkSearchListAjax)return false;
-			var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-			var searchListHeight = self.searchListObj.height();
-
-			if(self.clientHeight + scrollTop > searchListHeight*3/4){
-				++self.searchPage;
-				self.getSearchListData();
-			}
-
-		};
 	}
 
 	this.init = function(){
