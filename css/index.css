@@ -67,6 +67,7 @@ a:hover{color:#fd8d42;}
 .list-wrap li .close{ position: absolute; right:8px;}
 .list-wrap .lists{ margin-top: 10px;}
 .list-wrap .other .tit{ display: block; padding: 0 10px; height: 28px; line-height: 28px;}
+.list-wrap .other .tit em{ display: inline-block; width: 10px;}
 .list-wrap .second-list li{ padding-left: 20px;}
 .list-wrap .second-list li{ font-size: 12px;}
 
@@ -89,8 +90,13 @@ a:hover{color:#fd8d42;}
 .item-info .tag{display: inline-block; margin-left: 5px; padding:3px 5px; border: 1px solid #89bafe; font-size: 12px; border-radius: 3px; background: #e6f0ff; color: #3388ff;}
 .item-info .zhushi em{margin-right: 10px;}
 
-.pages a{ display: inline-block;margin-right: 10px; padding: 5px 10px;font-size: 12px; border: 1px solid #e8e8e8; color: #666;}
+.srhing{ padding: 100px 0; font-size: 16px; color: #999;}
+.srhing img{ vertical-align: middle; margin-right: 15px; width: 32px; height: 32px;}
+
+.pages a{ display: inline-block;margin-right: 10px;/* padding: 5px 10px;*/width: 28px; height: 28px; text-align: center; line-height: 28px; font-size: 12px; border: 1px solid #e8e8e8; color: #666;}
+.pages a.long{ width:60px;}
 .pages a:hover{ border-color: #fd8d42;}
+.pages a.on{border-color: #fd8d42; background: #fdeee4; color: #fd8d42;}
 .gotop{position: fixed; bottom:10px; right: 10px;width: 48px; height: 55px; }
 .gotop .gotop-icon{display: block; width: 40px; height: 40px; background: #d8d8d8;}
 .gotop .gotop-icon:hover{ background: #38f;}
