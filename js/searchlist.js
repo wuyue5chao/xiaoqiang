@@ -17,10 +17,10 @@ $(function(){
 		this.conditionObj = $("#conditionObj");
 		this.searchListObj = $("#searchListObj");
 		this.collectObj = $("#collectObj");
-		this.ajaxScrollTipsObj = $("#ajaxScrollTipsObj");
 		this.nodataObj = $("#nodataObj");
 		this.pageObj = $("#pageObj");
 		this.downObj = $("#downObj");
+		this.waitObj = $("#waitObj");
 	}
 
 	this.createSearchData = function(){
@@ -79,15 +79,14 @@ $(function(){
 		if(this.checkSearchListAjax)return false;
 		this.checkSearchListAjax = true;
 		var self = this;
-		this.ajaxScrollTipsObj.children('a').html("正在加载中...");
-		this.ajaxScrollTipsObj.show();
+		this.showWaitTips();
 		$.ajax({
 			url : "/xiaoqiang/php/searchlist.php",
 			data : this.getSearchListPostData(),
 			dataType : "json",
 			type : "post",
 			success : function(data){
-				self.ajaxScrollTipsObj.hide();
+				self.hideWaitTips();
 				self.checkSearchListAjax = false;
 				if(data.code!==0)return false;
 				if(data.searchTime!=self.searchData['searchTime'])return false;
@@ -103,8 +102,6 @@ $(function(){
 				self.createSearchListHtml(data['info']['searchList']['list']);
 				if(data['info']['searchList']['count'] < self.listMaxNum){
 					self.checkSearchListAjax = true;
-					//self.ajaxScrollTipsObj.show();
-					//self.ajaxScrollTipsObj.children('a').html("数据已经全部加载");
 				}
 			},error : function(){
 				self.checkSearchListAjax = false;
@@ -113,7 +110,7 @@ $(function(){
 	}
 
 	this.createFloatCondHtml = function(data){
-		var html = ['<div class="item clearfix" data-t="float" data-k="'+data['key']+'"><h3><a href="javascript:void(0);">'+data['cn']+'<i class="arrow"></i></a></h3><div class="lists-other clearfix">'];
+		var html = ['<div class="item clearfix" data-t="float" data-k="'+data['key']+'"><h3 data-t="showcond"><a href="javascript:void(0);">'+data['cn']+'<i class="arrow"></i></a></h3><div class="lists-other clearfix">'];
 
 		for(var i=0,ilen=data['child'].length;i<ilen;i++){
 			html.push(this.createFloatLayerHtml(data,i));
@@ -138,16 +135,16 @@ $(function(){
 	this.createFloatUlHtml = function(key,data){
 		var html=['<ul class="second-list">'];
 		for(var k=0,klen=data.length;k<klen;k++){
-			html.push('<li data-v="'+key+"_"+data[k]['id']+"_"+data[k]['cond']+'" data-t="cond">'+data[k]['cond']+'<em>('+data[k]['num']+')</em></label></li>');
+			html.push('<li data-v="'+key+"_"+data[k]['id']+"_"+data[k]['cond']+'" data-t="cond">'+data[k]['cond']+'<em>('+data[k]['num']+')</em><i class="close">X</i></li>');
 		}
 		html.push('</ul></div>');
 		return html.join("");
 	}
 
 	this.createSelectCondHtml = function(data){
-		var html = ['<div class="item clearfix" data-t="select" data-k="'+data['key']+'"><h3><a href="javascript:void(0);">'+data['cn']+'<i class="arrow"></i></a></h3><ul class="lists">'];
+		var html = ['<div class="item clearfix" data-t="select" data-k="'+data['key']+'"><h3 data-t="showcond"><a href="javascript:void(0);">'+data['cn']+'<i class="arrow"></i></a></h3><ul class="lists">'];
 		for(var i=0,ilen=data['child'].length;i<ilen;i++){
-			html.push('<li data-v="'+data['key']+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'" data-t="cond">'+data['child'][i]['cond']+'<em>('+data['child'][i]['num']+')</em></label></li>');
+			html.push('<li data-v="'+data['key']+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'" data-t="cond">'+data['child'][i]['cond']+'<em>('+data['child'][i]['num']+')</em><i class="close">X</i></li>');
 		}
 
 		html.push('</ul></div>');
@@ -373,8 +370,7 @@ $(function(){
 			if(this.selectConditionObj)clearTimeout(this.selectConditionObj);
 		}
 		this.selectConditionTime = nowTime;
-		this.ajaxScrollTipsObj.children('a').html("正在加载中...");
-		this.ajaxScrollTipsObj.show();
+		this.showWaitTips();
 		setTimeout(function(){
 			self.getSearchListData();
 		},500);
@@ -384,9 +380,18 @@ $(function(){
 		var thisV = obj.attr("data-v");
 		var thisVArr = thisV.split("_");
 		var temData = new Array();
+		var divObj = obj.parent().siblings('div');
 		for(var i=0,ilen=this.searchData['keyword'].length;i<ilen;i++){
 			var thisDataArr = this.searchData['keyword'][i].split("_");
-			if(thisDataArr.length ==3 && thisDataArr[0]== thisVArr[0])continue;
+			if(thisDataArr.length ==3 && thisDataArr[0]== thisVArr[0]){
+				var thisDiv = divObj.filter('[data-v="'+this.searchData['keyword'][i]+'"]');
+				if(thisDiv){
+					var aObj = thisDiv.children('a');
+					aObj.children('em:eq(0)').html("+");
+					aObj.next("ul").hide();
+				}
+				continue;
+			}
 			temData.push(this.searchData['keyword'][i]);
 		}
 
@@ -413,8 +418,7 @@ $(function(){
 			if(this.selectConditionObj)clearTimeout(this.selectConditionObj);
 		}
 		this.selectConditionTime = nowTime;
-		this.ajaxScrollTipsObj.children('a').html("正在加载中...");
-		this.ajaxScrollTipsObj.show();
+		this.showWaitTips();
 		setTimeout(function(){
 			self.getSearchListData();
 		},500);
@@ -424,8 +428,17 @@ $(function(){
 		var aObj = obj.parent();
 		var thisV = aObj.attr("data-v");
 		if(thisV.indexOf("_")>-1){
-			var inputObj = this.conditionObj.parent().find("input[data-t='cond'][value='"+thisV+"']");
-			if(inputObj.length)inputObj[0].checked = false;
+			var liObj = this.conditionObj.find("li[data-t='cond'][data-v='"+thisV+"']");
+			if(liObj.length){
+				liObj.removeClass('on');
+			}else{
+				var aObj = this.conditionObj.find("a[data-t='cond'][data-v='"+thisV+"']");
+				aObj.removeClass('onObj');
+				aObj.children('em:eq(0)').html("+");
+				aObj.next("ul").hide();
+				aObj.addClass('onObj');
+				this.selectTitleCondition(aObj);
+			}
 		}
 		var temCond = new Array();
 		for(var i=0,ilen=this.searchData['keyword'].length;i<ilen;i++){
@@ -445,8 +458,7 @@ $(function(){
 			if(this.selectConditionObj)clearTimeout(this.selectConditionObj);
 		}
 		this.selectConditionTime = nowTime;
-		this.ajaxScrollTipsObj.children('a').html("正在加载中...");
-		this.ajaxScrollTipsObj.show();
+		this.showWaitTips();
 		setTimeout(function(){
 			self.getSearchListData();
 		},500);
@@ -465,7 +477,6 @@ $(function(){
 	this.clearSearchRequestData = function(){
 		this.searchPage = 1;
 		this.checkSearchListAjax = false;
-		this.searchListObj.html("");
 	}
 
 	this.collectList = function(idArr){
@@ -503,6 +514,30 @@ $(function(){
 
 	this.downList = function(){
 		alert("这个是批量下载跳转，给我链接");
+	}
+
+	this.showCond = function(obj){
+		if(obj.hasClass('onObj')){
+			obj.removeClass('onObj');
+			obj.next("div").show();
+			obj.find("i").removeClass("trans");
+		}else{
+			obj.addClass('onObj');
+			obj.next("div").hide();
+			obj.find("i").addClass("trans");
+		}
+	}
+
+	this.showWaitTips = function(){
+		var height = this.searchListObj.outerHeight();
+		this.waitObj.css("height",(height-100)+"px");
+		this.waitObj.next("div").hide();
+		this.waitObj.show();
+	}
+
+	this.hideWaitTips = function(){
+		this.waitObj.hide();
+		this.waitObj.next("div").show();
 	}
 
 	this.createEvent = function(){
@@ -545,6 +580,13 @@ $(function(){
 			var thisT = $(this).attr("data-t");
 			switch(thisT){
 				case "cond" : self.selectTitleCondition($(this));return true;
+			}
+		});
+
+		this.conditionObj.delegate('h3','click',function(){
+			var thisT = $(this).attr("data-t");
+			switch(thisT){
+				case "showcond" : self.showCond($(this));return true;
 			}
 		});
 
