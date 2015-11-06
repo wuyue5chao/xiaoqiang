@@ -366,7 +366,7 @@ $(function(){
 
 	this.createPageHtml = function(n,a,m){
 		var allPageNum = Math.ceil(a/m);
-		var html = ['<a href="javascript:void(0);"'+(n==1 ? ' style="display:none"' : '')+' data-t="page" data-v="prev">上一页</a>'];
+		var html = ['<a href="javascript:void(0);"'+(n==1 ? ' style="display:none"' : '')+' data-t="page" data-v="prev" class="long">上一页</a>'];
 
 		if(allPageNum < this.maxPageDomNum ){
 			var startPage = 1;
@@ -380,7 +380,7 @@ $(function(){
 		for(var i=0,page=startPage;i<endPage;i++,page++){
 			html.push('<a href="javascript:void(0);" class="'+(page==n ? "on" : "")+'" data-t="page" data-v="'+page+'">'+page+'</a>');
 		}
-		html.push('<a href="javascript:void(0);" data-t="page"'+(n==allPageNum ? ' style="display:none"' : '')+' data-v="next">下一页</a>');
+		html.push('<a href="javascript:void(0);" data-t="page"'+(n==allPageNum ? ' style="display:none"' : '')+' data-v="next" class="long">下一页</a>');
 
 		this.pageObj.attr("data-a",allPageNum);
 		this.pageObj.html(html.join(""));
