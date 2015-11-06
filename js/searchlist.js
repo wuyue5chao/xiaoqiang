@@ -131,9 +131,14 @@ $(function(){
 			html.push('</div>');
 			return html.join("");
 		}
-		html.push('<ul class="second-list">')
-		for(var k=0,klen=data['child'][i]['child'].length;k<klen;k++){
-			html.push('<li data-v="'+data['key']+"_"+data['child'][i]['child'][k]['id']+"_"+data['child'][i]['child'][k]['cond']+'" data-t="cond">'+data['child'][i]['child'][k]['cond']+'<em>('+data['child'][i]['child'][k]['num']+')</em></label></li>');
+		html.push(this.createFloatUlHtml(data['key'],data['child'][i]['child']));
+		return html.join("");
+	}
+
+	this.createFloatUlHtml = function(key,data){
+		var html=['<ul class="second-list">'];
+		for(var k=0,klen=data.length;k<klen;k++){
+			html.push('<li data-v="'+key+"_"+data[k]['id']+"_"+data[k]['cond']+'" data-t="cond">'+data[k]['cond']+'<em>('+data[k]['num']+')</em></label></li>');
 		}
 		html.push('</ul></div>');
 		return html.join("");
@@ -171,6 +176,7 @@ $(function(){
 			if(thisDivObj.length){
 				thisDivObj.data("checkSelect",true);
 				thisDivObj.show();
+				this.resetFloatLayerHtml(thisDivObj,data['key'],data['child'][i]['child'],data['child'][i]['num']);
 			}else{
 				var html = this.createFloatLayerHtml(data,i);
 				divObj.append(html);
@@ -180,6 +186,46 @@ $(function(){
 		for(var i=0,ilen=allDivObj.length;i<ilen;i++){
 			if(allDivObj.eq(i).data("checkSelect"))continue;
 			allDivObj.eq(i).hide();
+		}
+	}
+
+	this.resetFloatLayerHtml = function(obj,key,data,num){
+		var aObj = obj.children('a');
+		//var emHtml = data ? "-" : "+";
+		var emObj = aObj.children('em');
+		//emObj.eq(0).html(emHtml);
+		emObj.eq(1).html("("+num+")");
+
+		var ulObj = aObj.next("ul");
+		//if(!data && ulObj.length)ulObj.hide();
+		if(!data)return false;
+
+		if(ulObj.length){
+			//ulObj.show();
+			this.resetFloatLIHtml(ulObj,key,data);
+		}else{
+			var ulHtml = this.createFloatUlHtml(key,data);
+			aObj.after(ulHtml);
+		}
+	}
+
+	this.resetFloatLIHtml = function(ulObj,key,data){
+		var liObj = ulObj.children('li');
+		for(var i=0,ilen=data.length;i<ilen;i++){
+			var thisVal = [key,data[i]['id'],data[i]['cond']].join("_");
+			var thisLiObj = liObj.filter("[data-v='"+thisVal+"']");
+			if(thisLiObj.length){
+				thisLiObj.find("em:eq(0)").html("("+data[i]['num']+")");
+				thisLiObj.show();
+				thisLiObj.data("checkSelect",true);
+			}else{
+				var html = '<li data-v="'+thisVal+'" data-t="cond">'+data[i]['cond']+'<em>('+data[i]['num']+')</em></li>'
+				ulObj.append(html);
+			}
+		}
+		for(var i=0,ilen=liObj.length;i<ilen;i++){
+			if(liObj.eq(i).data("checkSelect"))continue;
+			liObj.eq(i).hide();
 		}
 	}
 
