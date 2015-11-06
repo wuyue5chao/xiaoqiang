@@ -519,11 +519,11 @@ $(function(){
 	this.showCond = function(obj){
 		if(obj.hasClass('onObj')){
 			obj.removeClass('onObj');
-			obj.next("div").show();
+			obj.next().show();
 			obj.find("i").removeClass("trans");
 		}else{
 			obj.addClass('onObj');
-			obj.next("div").hide();
+			obj.next().hide();
 			obj.find("i").addClass("trans");
 		}
 	}
