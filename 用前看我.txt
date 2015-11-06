@@ -1,4 +1,4 @@
-1.因为这个项目在我这里是/xiaoqiang这个目录，所以调用的ajax和js都是/xiaoqiang开头的，在线上项目肯定是相对根目录了,所以把所有文件中的/xiaoqiang都删除掉
+﻿1.因为这个项目在我这里是/xiaoqiang这个目录，所以调用的ajax和js都是/xiaoqiang开头的，在线上项目肯定是相对根目录了,所以把所有文件中的/xiaoqiang都删除掉
 
 2.前端使用ajax调用的数据都是请求的/xiaoqiang/php这个目录中的php文件，这里的php文件并没有真正执行程序，只是返回模拟的静态数据，后端只要按照php文件中写的格式返回js就能正常工作，同时，后端没必要按照这个目录定义请求路径，比如现在首页请求的是/xiaoqiang/php/searchlink.php这个文件，这个按照后端实际开发来做，前端到时候修改下就ok了。
 
