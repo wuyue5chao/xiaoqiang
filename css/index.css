@@ -64,12 +64,16 @@ a:hover{color:#fd8d42;}
 .list-wrap li{position: relative; padding:0 15px 0 10px; cursor:pointer;height: 28px; line-height: 28px;}
 .list-wrap li:hover{ background: #f0f0f0;}
 .list-wrap li.on{ background: #38f; color: #fff;}
-.list-wrap li .close{ position: absolute; right:8px;}
+.list-wrap li .close{display: none; position: absolute; right:8px;}
+.list-wrap li.on .close{ display:inline-block;}
 .list-wrap .lists{ margin-top: 10px;}
 .list-wrap .other .tit{ display: block; padding: 0 10px; height: 28px; line-height: 28px;}
 .list-wrap .other .tit em{ display: inline-block; width: 10px;}
 .list-wrap .second-list li{ padding-left: 20px;}
 .list-wrap .second-list li{ font-size: 12px;}
+.list-wrap .more{ text-align:right; font-size: 12px;}
+.list-wrap .more a{ color: #666;}
+.list-wrap .more a:hover{color: #fd8d42;}
 
 .main{ width: 960px;}
 .result{ padding: 15px 10px 10px;}
