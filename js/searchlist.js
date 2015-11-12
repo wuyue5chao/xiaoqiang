@@ -17,10 +17,10 @@ $(function(){
 		this.conditionObj = $("#conditionObj");
 		this.searchListObj = $("#searchListObj");
 		this.collectObj = $("#collectObj");
-		this.ajaxScrollTipsObj = $("#ajaxScrollTipsObj");
 		this.nodataObj = $("#nodataObj");
 		this.pageObj = $("#pageObj");
 		this.downObj = $("#downObj");
+		this.waitObj = $("#waitObj");
 	}
 
 	this.createSearchData = function(){
@@ -79,15 +79,14 @@ $(function(){
 		if(this.checkSearchListAjax)return false;
 		this.checkSearchListAjax = true;
 		var self = this;
-		this.ajaxScrollTipsObj.children('a').html("正在加载中...");
-		this.ajaxScrollTipsObj.show();
+		this.showWaitTips();
 		$.ajax({
 			url : "/xiaoqiang/php/searchlist.php",
 			data : this.getSearchListPostData(),
 			dataType : "json",
 			type : "post",
 			success : function(data){
-				self.ajaxScrollTipsObj.hide();
+				self.hideWaitTips();
 				self.checkSearchListAjax = false;
 				if(data.code!==0)return false;
 				if(data.searchTime!=self.searchData['searchTime'])return false;
@@ -95,7 +94,7 @@ $(function(){
 					self.createSearchCondHtml(data['info']['cond']);
 					self.checkCreateCondition = false;
 				}else{
-					//self.resetSearchCondHtml(data['info']['cond']);
+					self.resetSearchCondHtml(data['info']['cond']);
 				}
 				if(data['info']['searchList']['page'] == 1)self.createSeatchCountHtml(data['info']['count']);
 				self.createPageHtml(Number(data['info']['searchList']['page']),Number(data['info']['count']),self.listMaxNum);
@@ -103,8 +102,6 @@ $(function(){
 				self.createSearchListHtml(data['info']['searchList']['list']);
 				if(data['info']['searchList']['count'] < self.listMaxNum){
 					self.checkSearchListAjax = true;
-					self.ajaxScrollTipsObj.show();
-					self.ajaxScrollTipsObj.children('a').html("数据已经全部加载");
 				}
 			},error : function(){
 				self.checkSearchListAjax = false;
@@ -113,19 +110,10 @@ $(function(){
 	}
 
 	this.createFloatCondHtml = function(data){
-		var html = ['<div class="item clearfix" data-t="float" data-k="'+data['key']+'"><h3><a href="javascript:void(0);">'+data['cn']+'<i class="arrow"></i></a></h3><div class="lists-other clearfix">'];
+		var html = ['<div class="item clearfix" data-t="float" data-k="'+data['key']+'"><h3 data-t="showcond"><a href="javascript:void(0);">'+data['cn']+'<i class="arrow"></i></a></h3><div class="lists-other clearfix">'];
 
 		for(var i=0,ilen=data['child'].length;i<ilen;i++){
-			html.push('<div class="other"><a href="javascript:void(0);" data-t="cond" data-v="'+data['key']+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'" class="tit'+(data['child'][i]['child'] && data['child'][i]['child'].length ? ' onObj' : '')+'"><em>'+(data['child'][i]['child'] && data['child'][i]['child'].length ? '-' : '+')+'</em> '+data['child'][i]['cond']+'<em>('+data['child'][i]['num']+')</em></a>');
-			if(!(data['child'][i]['child'] && data['child'][i]['child'].length)){
-				html.push('</div>');
-				continue;
-			}
-			html.push('<ul class="second-list">')
-			for(var k=0,klen=data['child'][i]['child'].length;k<klen;k++){
-				html.push('<li data-v="'+data['key']+"_"+data['child'][i]['child'][k]['id']+"_"+data['child'][i]['child'][k]['cond']+'" data-t="cond">'+data['child'][i]['child'][k]['cond']+'<em>('+data['child'][i]['child'][k]['num']+')</em></label></li>');
-			}
-			html.push('</ul></div>');
+			html.push(this.createFloatLayerHtml(data,i));
 		}
 
 		html.push('</div></div>');
@@ -133,74 +121,30 @@ $(function(){
 		return html.join("");
 	}
 
-	// this.createFloatCondHastitleHtml = function(key,data){
-	// 	var html = ['<div class="column" data-title="'+data['title']+'"><dl><dt><strong>'+data['title']+'</strong></dt>'];
+	this.createFloatLayerHtml = function(data,i){
+		var html = [];
+		html.push('<div class="other" data-v="'+data['key']+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'"><a href="javascript:void(0);" data-t="cond" data-v="'+data['key']+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'" class="tit'+(data['child'][i]['child'] && data['child'][i]['child'].length ? ' onObj' : '')+'"><em>'+(data['child'][i]['child'] && data['child'][i]['child'].length ? '-' : '+')+'</em> '+data['child'][i]['cond']+'<em>('+data['child'][i]['num']+')</em></a>');
+		if(!(data['child'][i]['child'] && data['child'][i]['child'].length)){
+			html.push('</div>');
+			return html.join("");
+		}
+		html.push(this.createFloatUlHtml(data['key'],data['child'][i]['child']));
+		return html.join("");
+	}
 
-	// 	for(var i=0,ilen=data['child'].length;i<ilen;i++){
-	// 		html.push('<dd><label><input type="checkbox" value="'+key+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'" data-t="cond" class="ipt" /><span class="txt">'+data['child'][i]['cond']+'</span><em class="num">('+data['child'][i]['num']+')</em></label></dd>');
-	// 	}
-
-	// 	html.push('</dd></dl></div>');
-
-	// 	return html.join("");
-	// }
-
-	// this.createFloatCondNoHastitleHtml = function(key,data){
-	// 	return '<div class="column"><label><input type="checkbox" class="ipt" value="'+key+"_"+data['id']+"_"+data['cond']+'" data-t="cond"/><span class="txt">'+data['cond']+'</span><em class="num">('+data['num']+')</em></label></div>';
-	// }
-
-	// this.createFloatCondLayerHtml = function(data){
-	// 	var html = ['<div class="down-layer" id="'+data['key']+'LayerObj" style="display:none;">'];
-	// 	for(var i=0,ilen=data['child'].length;i<ilen;i++){
-	// 		if(data['child'][i]['title']){
-	// 			html.push(this.createFloatCondHastitleHtml(data['key'],data['child'][i]));
-	// 		}else{
-	// 			html.push(this.createFloatCondNoHastitleHtml(data['key'],data['child'][i]));
-	// 		}
-	// 	}
-	// 	this.conditionObj.after(html.join(""));
-	// }
-
-	// this.createFloatCondMouseEvent = function(data){
-	// 	if(!data || !data.length)return false;
-	// 	var self = this;
-	// 	var conditionDivObj = this.conditionObj.children("div");
-	// 	for(var i=0,ilen=conditionDivObj.length;i<ilen;i++){
-	// 		var thisK = conditionDivObj.eq(i).attr("data-k");
-	// 		if($.inArray(thisK,data)>-1){
-	// 			new mouseShowDiv(thisK+"LayerObj",conditionDivObj.eq(i)[0],50,200,function(){
-
-	// 				for(var d=0,dlen=conditionDivObj.length;d<dlen;d++){
-	// 					if(!conditionDivObj.eq(d)[0].className.indexOf('item_on')<0)continue;
-	// 					conditionDivObj.eq(d).removeClass('item-on');
-	// 				}
-	// 				$(this).addClass("item-on");
-	// 			},function(){
-	// 				$(this).removeClass("item-on");
-	// 			});
-	// 		}
-	// 	}
-	// }
-
-	// this.setFloatCondLayerHeight = function(data){
-	// 	if(!data || !data.length)return false;
-	// 	var titleHeight = this.conditionObj.height();
-	// 	for(var i=0,ilen=data.length;i<ilen;i++){
-	// 		var thisObj = $("#"+data[i]+"LayerObj");
-	// 		thisHeight = thisObj.height();
-	// 		if(thisHeight < titleHeight){
-	// 			thisObj.css({
-	// 				"height" : titleHeight-20,
-	// 				"min-height" : titleHeight-20
-	// 			});
-	// 		}
-	// 	}
-	// }
+	this.createFloatUlHtml = function(key,data){
+		var html=['<ul class="second-list">'];
+		for(var k=0,klen=data.length;k<klen;k++){
+			html.push('<li data-v="'+key+"_"+data[k]['id']+"_"+data[k]['cond']+'" data-t="cond">'+data[k]['cond']+'<em>('+data[k]['num']+')</em><i class="close">X</i></li>');
+		}
+		html.push('</ul></div>');
+		return html.join("");
+	}
 
 	this.createSelectCondHtml = function(data){
-		var html = ['<div class="item clearfix" data-t="float" data-k="'+data['key']+'"><h3><a href="javascript:void(0);">'+data['cn']+'<i class="arrow"></i></a></h3><ul class="lists">'];
+		var html = ['<div class="item clearfix" data-t="select" data-k="'+data['key']+'"><h3 data-t="showcond"><a href="javascript:void(0);">'+data['cn']+'<i class="arrow"></i></a></h3><ul class="lists">'];
 		for(var i=0,ilen=data['child'].length;i<ilen;i++){
-			html.push('<li data-v="'+data['key']+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'" data-t="cond">'+data['child'][i]['cond']+'<em>('+data['child'][i]['num']+')</em></label></li>');
+			html.push('<li data-v="'+data['key']+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'" data-t="cond">'+data['child'][i]['cond']+'<em>('+data['child'][i]['num']+')</em><i class="close">X</i></li>');
 		}
 
 		html.push('</ul></div>');
@@ -220,124 +164,114 @@ $(function(){
 		this.conditionObj.html(html.join(""));
 	}
 
-	this.resetFloatCondHastitleHtml = function(key,data){
-		var divObj = $("#"+key+"LayerObj").children("div[data-title='"+data['title']+"']");
-		var inputObj = divObj.find("input[data-t='cond']");
+	this.resetFloatCondHtml = function(data){
+		var divObj = this.conditionObj.children('div[data-k="'+data['key']+'"]').children('div:eq(0)');
+		var allDivObj = divObj.children('div')
 		for(var i=0,ilen=data['child'].length;i<ilen;i++){
-			var thisVal = [key,data['child'][i]['id'],data['child'][i]['cond']].join("_");
-			var thisInputObj = inputObj.filter("[value='"+thisVal+"']");
-			if(thisInputObj.length){
-				thisInputObj.nextAll("em").html("("+data['child'][i]['num']+")");
-				thisInputObj[0].disabled = false;
-				var index = inputObj.index(thisInputObj);
-				inputObj[index] = false;
+			var thisVal = [data['key'],data['child'][i]['id'],data['child'][i]['cond']].join("_");
+			var thisDivObj = allDivObj.filter("[data-v='"+thisVal+"']");
+			if(thisDivObj.length){
+				thisDivObj.data("checkSelect",true);
+				thisDivObj.show();
+				this.resetFloatLayerHtml(thisDivObj,data['key'],data['child'][i]['child'],data['child'][i]['num']);
 			}else{
-				divObj.append('<dd><label><input type="checkbox" value="'+key+"_"+data['child'][i]['id']+"_"+data['child'][i]['cond']+'" data-t="cond" class="ipt" /><span class="txt">'+data['child'][i]['cond']+'</span><em class="num">('+data['child'][i]['num']+')</em></label></dd>');
+				var html = this.createFloatLayerHtml(data,i);
+				divObj.append(html);
 			}
 		}
 
-		for(var i=0,ilen=inputObj.length;i<ilen;i++){
-			if(!inputObj[i])continue;
-			inputObj[i].disabled = true;
-			inputObj.eq(i).nextAll("em").html("(0)");
+		for(var i=0,ilen=allDivObj.length;i<ilen;i++){
+			if(allDivObj.eq(i).data("checkSelect"))continue;
+			allDivObj.eq(i).hide();
 		}
 	}
 
-	this.resetFloatCondNoHastitleHtml = function(key,data){
-		var inputObj = $("#"+key+"LayerObj").find("input[data-t='cond'][value='"+([key,data['id'],data['cond']].join("_"))+"']");
-		if(inputObj.length){
-			inputObj.nextAll("em").html("("+data['num']+")");
-			inputObj[0].disabled = false;
+	this.resetFloatLayerHtml = function(obj,key,data,num){
+		var aObj = obj.children('a');
+		//var emHtml = data ? "-" : "+";
+		var emObj = aObj.children('em');
+		//emObj.eq(0).html(emHtml);
+		emObj.eq(1).html("("+num+")");
+
+		var ulObj = aObj.next("ul");
+		//if(!data && ulObj.length)ulObj.hide();
+		if(!data)return false;
+
+		if(ulObj.length){
+			//ulObj.show();
+			this.resetFloatLIHtml(ulObj,key,data);
 		}else{
-			$("#"+key+"LayerObj").append(this.createFloatCondNoHastitleHtml(key,data));
+			var ulHtml = this.createFloatUlHtml(key,data);
+			aObj.after(ulHtml);
 		}
 	}
 
-	this.resetFloatCondLayerHtml = function(data){
-		var temKey = new Array();
-		var type = "";
-		for(var i=0,ilen=data['child'].length;i<ilen;i++){
-			if(data['child'][i]['title']){
-				this.resetFloatCondHastitleHtml(data['key'],data['child'][i]);
-				temKey.push(data['child'][i]['title']);
-				type= "title";
+	this.resetFloatLIHtml = function(ulObj,key,data){
+		var liObj = ulObj.children('li');
+		for(var i=0,ilen=data.length;i<ilen;i++){
+			var thisVal = [key,data[i]['id'],data[i]['cond']].join("_");
+			var thisLiObj = liObj.filter("[data-v='"+thisVal+"']");
+			if(thisLiObj.length){
+				thisLiObj.find("em:eq(0)").html("("+data[i]['num']+")");
+				thisLiObj.show();
+				thisLiObj.data("checkSelect",true);
 			}else{
-				this.resetFloatCondNoHastitleHtml(data['key'],data['child'][i]);
-				temKey.push([data['key'],data['child'][i]['id'],data['child'][i]['cond']].join("_"));
+				var html = '<li data-v="'+thisVal+'" data-t="cond">'+data[i]['cond']+'<em>('+data[i]['num']+')</em></li>'
+				ulObj.append(html);
 			}
 		}
-
-		if(type=="title"){
-			this.checkFloatCondHastitleHtml(data['key'],temKey);
-		}else{
-			this.checkFloatCondNoHastitleHtml(data['key'],temKey);
-		}
-	}
-
-	this.checkFloatCondHastitleHtml = function(key,data){
-		var divObj = $("#"+key+"LayerObj").children("div");
-		for(var i=0,ilen=divObj.length;i<ilen;i++){
-			var thisTitle = divObj.eq(i).attr("data-title");
-			if($.inArray(thisTitle,data)>-1)continue;
-			var inputObj = divObj.eq(i).find("input[data-t='cond']");
-			for(var k=0,klen=inputObj.length;k<klen;k++){
-				inputObj[k].disabled = true;
-				inputObj.eq(k).nextAll("em").html("(0)");
-			}
-		}
-	}
-
-	this.checkFloatCondNoHastitleHtml = function(key,data){
-		var inputObj = $("#"+key+"LayerObj").find("input[data-t='cond']");
-		for(var i=0,ilen=inputObj.length;i<ilen;i++){
-			var thisV = inputObj[i].value;
-			if($.inArray(thisV,data)>-1)continue;
-			inputObj[i].disabled = true;
-			inputObj.eq(i).nextAll("em").html("(0)");
+		for(var i=0,ilen=liObj.length;i<ilen;i++){
+			if(liObj.eq(i).data("checkSelect"))continue;
+			liObj.eq(i).hide();
 		}
 	}
 
 	this.resetSelectCondHtml = function(data){
 		var ulObj = this.conditionObj.children('div[data-k="'+data['key']+'"]').children('ul');
-		var inputObj = ulObj.find("input[data-t='cond']");
+		var liObj = ulObj.find("li[data-t='cond']");
 		for(var i=0,ilen=data['child'].length;i<ilen;i++){
 			var thisVal = [data['key'],data['child'][i]['id'],data['child'][i]['cond']].join("_");
-			var thisInputObj = inputObj.filter("[value='"+thisVal+"']");
-			if(thisInputObj.length){
-				thisInputObj.nextAll("em").html("("+data['child'][i]['num']+")");
-				thisInputObj[0].disabled = false;
-				var index = inputObj.index(thisInputObj);
-				inputObj[index] = false;
+			var thisLiObj = liObj.filter("[data-v='"+thisVal+"']");
+			if(thisLiObj.length){
+				thisLiObj.find("em:eq(0)").html("("+data['child'][i]['num']+")");
+				thisLiObj.show();
+				thisLiObj.data("checkSelect",true);
 			}else{
-				var html = '<li><label><input value="'+thisVal+'" data-t="cond" type="checkbox"/> '+data['child'][i]['cond']+'<em>('+data['child'][i]['num']+')</em></label></li>';
+				var html = '<li data-v="'+thisVal+'" data-t="cond">'+data['child'][i]['cond']+'<em>('+data['child'][i]['num']+')</em></li>'
 				ulObj.append(html);
 			}
 		}
-		for(var i=0,ilen=inputObj.length;i<ilen;i++){
-			if(!inputObj[i])continue;
-			inputObj[i].disabled = true;
-			inputObj.eq(i).nextAll("em").html("(0)");
+		for(var i=0,ilen=liObj.length;i<ilen;i++){
+			if(liObj.eq(i).data("checkSelect"))continue;
+			liObj.eq(i).hide();
 		}
 	}
 
 	this.resetSearchCondHtml = function(data){
-		var floatKey = new Array();
+		var divObj = this.conditionObj.children('div');
 		for(var i=0,ilen=data.length;i<ilen;i++){
-			var thisCondDivObj = this.conditionObj.children('div[data-k="'+data[i]['key']+'"]');
+			var thisCondDivObj = divObj.filter('[data-k="'+data[i]['key']+'"]');
 			if(thisCondDivObj.length){
+				thisCondDivObj.data("checkSelect",true);
+				thisCondDivObj.show();
 				switch (data[i]['type']){
-					case "float" : this.resetFloatCondLayerHtml(data[i]);break;
+					case "float" : this.resetFloatCondHtml(data[i]);break;
 					case "select" : this.resetSelectCondHtml(data[i]);break;
 				}
 			}else{
 				switch (data[i]['type']){
-					case "float" : floatKey.push(data[i]['key']);this.conditionObj.append(this.createFloatCondHtml(data[i],i));this.createFloatCondLayerHtml(data[i]);break;
+					case "float" : this.conditionObj.append(this.createFloatCondHtml(data[i]));break;
 					case "select" : this.conditionObj.append(this.createSelectCondHtml(data[i]));break;
 				}
 			}
 		}
-		this.setFloatCondLayerHeight(floatKey);
-		this.createFloatCondMouseEvent(floatKey);
+
+		for(var i=0,ilen=divObj.length;i<ilen;i++){
+			if(divObj.eq(i).data("checkSelect"))continue;
+			divObj.eq(i).hide();
+		}
+		// this.setFloatCondLayerHeight(floatKey);
+		// this.createFloatCondMouseEvent(floatKey);
 	}
 
 	this.createSeatchCountHtml = function(data){
@@ -436,8 +370,7 @@ $(function(){
 			if(this.selectConditionObj)clearTimeout(this.selectConditionObj);
 		}
 		this.selectConditionTime = nowTime;
-		this.ajaxScrollTipsObj.children('a').html("正在加载中...");
-		this.ajaxScrollTipsObj.show();
+		this.showWaitTips();
 		setTimeout(function(){
 			self.getSearchListData();
 		},500);
@@ -447,9 +380,18 @@ $(function(){
 		var thisV = obj.attr("data-v");
 		var thisVArr = thisV.split("_");
 		var temData = new Array();
+		var divObj = obj.parent().siblings('div');
 		for(var i=0,ilen=this.searchData['keyword'].length;i<ilen;i++){
 			var thisDataArr = this.searchData['keyword'][i].split("_");
-			if(thisDataArr.length ==3 && thisDataArr[0]== thisVArr[0])continue;
+			if(thisDataArr.length ==3 && thisDataArr[0]== thisVArr[0]){
+				var thisDiv = divObj.filter('[data-v="'+this.searchData['keyword'][i]+'"]');
+				if(thisDiv){
+					var aObj = thisDiv.children('a');
+					aObj.children('em:eq(0)').html("+");
+					aObj.next("ul").hide();
+				}
+				continue;
+			}
 			temData.push(this.searchData['keyword'][i]);
 		}
 
@@ -476,8 +418,7 @@ $(function(){
 			if(this.selectConditionObj)clearTimeout(this.selectConditionObj);
 		}
 		this.selectConditionTime = nowTime;
-		this.ajaxScrollTipsObj.children('a').html("正在加载中...");
-		this.ajaxScrollTipsObj.show();
+		this.showWaitTips();
 		setTimeout(function(){
 			self.getSearchListData();
 		},500);
@@ -487,8 +428,17 @@ $(function(){
 		var aObj = obj.parent();
 		var thisV = aObj.attr("data-v");
 		if(thisV.indexOf("_")>-1){
-			var inputObj = this.conditionObj.parent().find("input[data-t='cond'][value='"+thisV+"']");
-			if(inputObj.length)inputObj[0].checked = false;
+			var liObj = this.conditionObj.find("li[data-t='cond'][data-v='"+thisV+"']");
+			if(liObj.length){
+				liObj.removeClass('on');
+			}else{
+				var aObj = this.conditionObj.find("a[data-t='cond'][data-v='"+thisV+"']");
+				aObj.removeClass('onObj');
+				aObj.children('em:eq(0)').html("+");
+				aObj.next("ul").hide();
+				aObj.addClass('onObj');
+				this.selectTitleCondition(aObj);
+			}
 		}
 		var temCond = new Array();
 		for(var i=0,ilen=this.searchData['keyword'].length;i<ilen;i++){
@@ -508,8 +458,7 @@ $(function(){
 			if(this.selectConditionObj)clearTimeout(this.selectConditionObj);
 		}
 		this.selectConditionTime = nowTime;
-		this.ajaxScrollTipsObj.children('a').html("正在加载中...");
-		this.ajaxScrollTipsObj.show();
+		this.showWaitTips();
 		setTimeout(function(){
 			self.getSearchListData();
 		},500);
@@ -528,7 +477,6 @@ $(function(){
 	this.clearSearchRequestData = function(){
 		this.searchPage = 1;
 		this.checkSearchListAjax = false;
-		this.searchListObj.html("");
 	}
 
 	this.collectList = function(idArr){
@@ -566,6 +514,30 @@ $(function(){
 
 	this.downList = function(){
 		alert("这个是批量下载跳转，给我链接");
+	}
+
+	this.showCond = function(obj){
+		if(obj.hasClass('onObj')){
+			obj.removeClass('onObj');
+			obj.next().show();
+			obj.find("i").removeClass("trans");
+		}else{
+			obj.addClass('onObj');
+			obj.next().hide();
+			obj.find("i").addClass("trans");
+		}
+	}
+
+	this.showWaitTips = function(){
+		var height = this.searchListObj.outerHeight();
+		this.waitObj.css("height",(height-100)+"px");
+		this.waitObj.next("div").hide();
+		this.waitObj.show();
+	}
+
+	this.hideWaitTips = function(){
+		this.waitObj.hide();
+		this.waitObj.next("div").show();
 	}
 
 	this.createEvent = function(){
@@ -608,6 +580,13 @@ $(function(){
 			var thisT = $(this).attr("data-t");
 			switch(thisT){
 				case "cond" : self.selectTitleCondition($(this));return true;
+			}
+		});
+
+		this.conditionObj.delegate('h3','click',function(){
+			var thisT = $(this).attr("data-t");
+			switch(thisT){
+				case "showcond" : self.showCond($(this));return true;
 			}
 		});
 
