@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 /*base*/
-html{color:#333;}*html{  background-image:url(about:blank);background-attachment:fixed;}body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0}body,button,input,select,textarea{font:12px/1.5 \5b8b\4f53,'Microsoft YaHei',Arial}h1,h2,h3,h4,h5,h6{font-size:100%}address,caption,cite,code,dfn,em,strong,th,var,i{font-style:normal;font-weight:normal}code,kbd,pre,samp{font-family:courier new,courier,monospace}ul,ol{list-style:none}a,a:hover{text-decoration:none}fieldset,img{border:0}q:before,q:after{content:''}button,input,select,textarea{font-size:100%;outline:0}table{border-collapse:collapse;border-spacing:0}.clearfix:after{content:'\20';display:block;height:0;clear:both}.clearfix{zoom:1}.fl{float:left}.fr{float:right}
+html{color:#333;}*html{  background-image:url(about:blank);background-attachment:fixed;}body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0}body,button,input,select,textarea{font:12px/1.5 Arial,\5b8b\4f53,'Microsoft YaHei'}h1,h2,h3,h4,h5,h6{font-size:100%}address,caption,cite,code,dfn,em,strong,th,var,i{font-style:normal;font-weight:normal}code,kbd,pre,samp{font-family:courier new,courier,monospace}ul,ol{list-style:none}a,a:hover{text-decoration:none}fieldset,img{border:0}q:before,q:after{content:''}button,input,select,textarea{font-size:100%;outline:0}table{border-collapse:collapse;border-spacing:0}.clearfix:after{content:'\20';display:block;height:0;clear:both}.clearfix{zoom:1}.fl{float:left}.fr{float:right}
 html{zoom:expression(function(ele){
 	ele.style.zoom = "1";
 	document.execCommand("BackgroundImageCache", false, true); 
@@ -12,6 +12,7 @@ a{color: #333;}
 a:hover{color:#fd8d42;}
 .fontblue{color: #317ef3;}
 .fontyellow{ color: #fd8d42;}
+.fontred{ color: #f00;}
 .fontgray{ color: #999;}
 .font12{font-size: 12px;}
 .mb10{margin-bottom: 10px;}
@@ -119,3 +120,21 @@ a:hover{color:#fd8d42;}
 .catalog-list{ padding: 20px; width:200px; background: #f2f4f6;}
 .catalog-list dt h3{padding-bottom: 15px; font-size: 16px;font-weight: bold; border-bottom: 1px solid #e8e8e8;}
 .catalog-list dd{padding-left: 20px; height: 40px; line-height: 40px;}
+
+/*弹出层*/
+.overlayer{position: fixed; top: 0; left: 0; height: 100%; width: 100%; background: #000; opacity: .4; filter:alpha(opacity=40); z-index: 1000;}
+.loginbox{position: absolute; top: 50%; left: 50%; margin-left: -210px; width: 420px; background: #fff; border:3px solid #ebebeb; border-radius: 4px; z-index: 1001;}
+.loginbox .tit{position: relative; border-bottom: 1px solid #ebebeb;}
+.loginbox .tit .close{position: absolute; right: 10px; top: 10px; font:bold 18px 'simhei';}
+.loginbox .tit{ height: 40px; background: #e6f0ff;}
+.loginbox .tab{position: relative; top: 5px; display: inline-block; margin-left: 5px; width: 90px; height: 35px; line-height: 35px; text-align: center;}
+.loginbox .tab.on{ background: #fff; border: 1px solid #ebebeb; border-bottom: 0; font-weight: bold; color: #317ef3;}
+.loginbox .con{ padding: 20px;}
+.loginbox .list li{ height: 60px;}
+.loginbox .list .w1{display: inline-block; width: 70px; text-align: right;}
+.loginbox .list .w2{display: inline-block; margin-right: 5px; padding: 2px 5px; width: 190px; height: 26px; border: 1px solid #e8e8e8;}
+.loginbox .list .focus{ border-color: #89bafe;}
+.loginbox .list .mleft{margin-left: 75px;}
+.loginbox .list .tips{ line-height: 24px;}
+.loginbox .list .btn{ display: inline-block; margin-top: 10px; width: 100px; height: 38px; line-height: 38px; color: #fff; text-align: center; background: #38f;}
+.loginbox .list .btn:hover{ background-color: #317ef3;}
