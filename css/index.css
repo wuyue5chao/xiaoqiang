@@ -47,36 +47,35 @@ a:hover{color:#fd8d42;}
 .srh-drop li{border-bottom: 0; height: 28px;line-height: 28px;}
 /*搜索列表*/
 .head-srh{height: 54px; line-height: 54px; color: #fff; font-size: 12px; background: #424951;}
-.head-srh .top-logo{width: 210px; height: 54px;}
+.head-srh .top-logo{width: 240px; height: 54px;}
 .head-srh .srh-form{margin-top: 7px; color: #333; width: 600px; font-size: 14px;}
 .head-srh .srh-form .srh-ipt{ font-size: 14px;}
 .head-srh .srh-form .srh-btn,.head-srh .srh-form .srh-submit{ width: 73px; font-size: 14px;}
 
 .content{margin-bottom: 20px;}
-.list-wrap{position: relative; width: 210px;}
+.list-wrap{position: relative; width: 240px;}
 .list-wrap .item{ margin-bottom: 10px;}
 .list-wrap h3{position: relative; padding:5px 10px; font-size: 14px; background: #e6f0ff; font-weight: bold;}
 .list-wrap h3 a:hover{ color: #333;}
 .list-wrap .arrow{display: inline-block;position: absolute;top:10px; right: 10px; width: 10px;height:10px; background: url(../images/arrow.png) no-repeat 0 0;}
 .list-wrap .trans{ -webkit-transform:rotate(180deg); transform:rotate(180deg); -webkit-transform-origin:50% 50%; transform-origin:50% 50%;}
 
-.list-wrap .txt{ display: inline-block; max-width: 100px; height: 24px; line-height: 24px; overflow: hidden; float: left;}
-.list-wrap .num{ display: inline-block; float: left;}
-.list-wrap li{position: relative; padding:0 15px 0 10px; cursor:pointer;height: 28px; line-height: 28px;}
-.list-wrap li:hover{ background: #f0f0f0;}
+.list-wrap .symbol{display: inline-block; width: 10px; margin-right: 5px; font:18px "simhei"; vertical-align: middle;}
+.list-wrap .txt{ display: inline-block; max-width: 100px; height: 24px; line-height: 24px; overflow: hidden; vertical-align: middle;}
+.list-wrap .num{ display: inline-block; vertical-align: middle;}
+.list-wrap li{position: relative; padding-left: 15px; cursor:pointer; line-height: 28px;}
+.list-wrap li .close{display: none; position: absolute; top: 6px; right:0px; width: 28px; text-align: center; font: 14px "simhei";}
 .list-wrap li.on{ background: #38f; color: #fff;}
-.list-wrap li .close{display: none; position: absolute; right:8px;}
+.list-wrap li.on a{ color: #fff;}
 .list-wrap li.on .close{ display:inline-block;}
 .list-wrap .lists{ margin-top: 10px;}
-.list-wrap .other .tit{ display: block; padding: 0 10px; height: 28px; line-height: 28px;}
-.list-wrap .other .tit em{ display: inline-block; width: 10px;}
-.list-wrap .second-list li{ padding-left: 20px;}
+.list-wrap .other .tit{ display: block;height: 28px; line-height: 28px;}
 .list-wrap .second-list li{ font-size: 12px;}
 .list-wrap .more{ text-align:right; font-size: 12px;}
 .list-wrap .more a{ color: #666;}
 .list-wrap .more a:hover{color: #fd8d42;}
 
-.main{ width: 960px;}
+.main{width:930px;}
 .result{ padding: 15px 10px 10px;}
 .result .keywords{ width: 1000px;}
 .save a{margin-left: 10px;font-size: 12px; color: #666;}
@@ -86,7 +85,7 @@ a:hover{color:#fd8d42;}
 .load-icon{background-position: 0 -70px;}
 .keyword{ display: inline-block;margin:0 8px 8px 0; background: #38f; color: #fff; padding: 2px 5px; font-size: 12px;}
 .keyword:hover{ background:#fd8d42; color: #fff; }
-.keyword .close{ margin-left:8px; font-size: 12px;}
+.keyword .close{ margin-left:5px;font: 14px "simhei"; vertical-align: middle;}
 .info-wrap{ margin-bottom: 40px;}
 .item-info{position: relative; padding:10px; border-top: 1px solid #e8e8e8;}
 .item-info:hover{ background: #f8f8f8}
@@ -116,7 +115,7 @@ a:hover{color:#fd8d42;}
 .detail-item h3{font-size: 16px; background: #f2f4f6; padding:8px 10px; margin-bottom: 20px; border-left:4px solid #38f;}
 .detail-item h3 a:hover{color:#333;}
 .detail-item p{line-height: 2; text-indent: 2em;}
-.catalog{position: relative; width: 260px;}
+.catalog{position: relative; width: 240px;}
 .catalog-list{ padding: 20px; width:200px; background: #f2f4f6;}
 .catalog-list dt h3{padding-bottom: 15px; font-size: 16px;font-weight: bold; border-bottom: 1px solid #e8e8e8;}
 .catalog-list dd{padding-left: 20px; height: 40px; line-height: 40px;}

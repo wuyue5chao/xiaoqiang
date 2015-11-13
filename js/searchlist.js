@@ -41,7 +41,7 @@ $(function(){
 		for(var i=0,ilen=this.searchData['keyword'].length;i<ilen;i++){
 			var thisV = decodeURIComponent(decodeURI(this.searchData['keyword'][i]));
 			var searchCond = (thisV.indexOf("_")>-1 && thisV.split("_").length==3) ? thisV.split("_")[2]:  thisV;
-			html.push('<a data-v="'+thisV+'" href="javascript:void(0);" class="keyword">'+searchCond+'<em class="close">X</em></a>');
+			html.push('<a data-v="'+thisV+'" href="javascript:void(0);" class="keyword">'+searchCond+'<em class="close">×</em></a>');
 		}
 		this.conditionSelectObj.html(html.join(""));
 	}
