@@ -123,7 +123,7 @@ a:hover{color:#fd8d42;}
 
 /*弹出层*/
 .overlayer{position: fixed; top: 0; left: 0; height: 100%; width: 100%; background: #000; opacity: .4; filter:alpha(opacity=40); z-index: 1000;}
-.loginbox{position: absolute; top: 50%; left: 50%; margin-left: -210px; width: 420px; background: #fff; border:3px solid #ebebeb; border-radius: 4px; z-index: 1001;}
+.loginbox{position: absolute; width: 420px; background: #fff; border:3px solid #ebebeb; border-radius: 4px; z-index: 1001;}
 .loginbox .tit{position: relative; border-bottom: 1px solid #ebebeb;}
 .loginbox .tit .close{position: absolute; right: 10px; top: 10px; font:bold 18px 'simhei';}
 .loginbox .tit{ height: 40px; background: #e6f0ff;}
@@ -138,3 +138,9 @@ a:hover{color:#fd8d42;}
 .loginbox .list .tips{ line-height: 24px;}
 .loginbox .list .btn{ display: inline-block; margin-top: 10px; width: 100px; height: 38px; line-height: 38px; color: #fff; text-align: center; background: #38f;}
 .loginbox .list .btn:hover{ background-color: #317ef3;}
+
+#dialog_overlay {position: fixed;top: 0px;left: 0px;height: 100%;width: 100%; z-index: 998; background-color: #000; opacity: 0.5; filter: alpha(opacity=50);}
+* html #dialog_overlay {
+	position: absolute; /* ie6 hack */
+	height: expression(document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px');
+}
